@@ -32,8 +32,8 @@ function VehiculesPage() {
     <>
       <PageHero
         eyebrow="Service · Sourcing véhicules"
-        title="La voiture que vous cherchez, où qu'elle soit."
-        intro="GACTI ne tient pas un catalogue figé : nous mobilisons un réseau international de fournisseurs pour trouver le véhicule exact qui correspond à votre besoin."
+        title="Sourcing de véhicules sur mesure, en France et à l’international."
+        intro="Grâce à notre réseau de partenaires européens et internationaux, nous identifions et sélectionnons le véhicule exact correspondant à vos critères, au meilleur prix du marché."
         image={vehiclesImg}
       />
 
@@ -44,17 +44,16 @@ function VehiculesPage() {
               <span className="w-8 h-px bg-gold" /> Comment ça marche
             </div>
             <h2 className="mt-5 font-serif text-4xl md:text-5xl text-navy leading-[1.05]">
-              Un sourcing <span className="italic">à la commande</span>.
+              Un sourcing <span className="italic">à la demande</span>.
             </h2>
             <p className="mt-6 text-navy/70 text-lg leading-relaxed">
-              Plutôt que de vous proposer un stock limité, nous interrogeons nos partenaires
-              en France et à l'étranger jusqu'à trouver la perle rare — au juste prix.
+              Contrairement à un catalogue classique, nous travaillons uniquement à la demande. Chaque recherche est traitée individuellement auprès de notre réseau de fournisseurs vérifiés.
             </p>
             <ol className="mt-10 space-y-6">
               {[
-                ["Décrivez votre recherche", "Marque, modèle, année, budget, destination."],
-                ["On contacte nos fournisseurs", "Notre réseau identifie les véhicules disponibles."],
-                ["On vous propose le véhicule", "Photos, fiche détaillée, prix tout compris."],
+                ["Décrivez votre recherche", "Marque, modèle, budget, options et destination sont étudiés avec précision."],
+                ["On contacte nos fournisseurs", "Nous sollicitons notre réseau de partenaires en Europe et à l’international."],
+                ["On vous propose le véhicule", "Vous recevez une sélection de véhicules disponibles avec photos, historique et prix final."],
               ].map(([t, d], i) => (
                 <li key={t} className="flex gap-5">
                   <span className="font-serif text-3xl text-gold leading-none">0{i + 1}</span>
@@ -71,7 +70,7 @@ function VehiculesPage() {
             <div className="bg-card border border-border p-8 md:p-10">
               <div className="flex items-center gap-3 text-navy">
                 <Search className="size-6 text-gold" />
-                <h3 className="font-serif text-2xl">Décrivez votre recherche</h3>
+                <h3 className="font-serif text-2xl">Décrivez votre véhicule idéal</h3>
               </div>
               {submitted ? (
                 <div className="mt-8 p-8 border border-gold bg-gold/10 text-navy text-center">
@@ -124,7 +123,7 @@ function VehiculesPage() {
                     type="submit"
                     className="sm:col-span-2 mt-2 inline-flex items-center justify-center gap-3 bg-navy text-cream px-6 py-4 hover:bg-gold hover:text-navy transition-colors"
                   >
-                    Envoyer ma recherche <Send className="size-4" />
+                    Lancer ma recherche <Send className="size-4" />
                   </button>
                   <a
                     href="tel:+33608465741"

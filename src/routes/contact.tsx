@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Contactez GACTI à Marseille : téléphone +33 6 08 46 57 41, email contact@gacti.fr, WhatsApp. Équipe joignable du lundi au samedi, 8h-19h.",
+          "Contactez GACTI à Marseille : téléphone +33 6 08 46 57 41, email contact@gacti.fr, WhatsApp. Équipe joignable du lundi au samedi, 9h-17h.",
       },
       { name: "keywords", content: "contact GACTI, transit véhicules Marseille, transport maritime, devis export Afrique" },
       { property: "og:title", content: "Contact GACTI — Transit & transport maritime" },
@@ -30,13 +30,39 @@ const cards = [
   { icon: Phone, label: "Téléphone", value: SITE.phone, href: `tel:${SITE.phoneRaw}` },
   { icon: Mail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
   { icon: MapPin, label: "Adresse", value: SITE.address },
-  { icon: Clock, label: "Horaires", value: "Lun – Sam · 8 h – 19 h" },
+  { icon: Clock, label: "Horaires", value: "Lun – Sam · 9 h – 17 h" },
 ];
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
   const wa = `https://wa.me/${SITE.phoneRaw.replace("+", "")}?text=${encodeURIComponent(SITE.whatsappMessage)}`;
+  const [hasConsent, setHasConsent] = useState(false);
 
+  useEffect(() => {
+    const updateConsent = () => {
+      setHasConsent(
+        localStorage.getItem("gacti_cookie_consent") === "accepted"
+      );
+    };
+
+    updateConsent();
+
+    window.addEventListener(
+      "cookie-consent-changed",
+      updateConsent
+    );
+
+    return () => {
+      window.removeEventListener(
+        "cookie-consent-changed",
+        updateConsent
+      );
+    };
+  }, []);
+
+  const MAP_QUERY = encodeURIComponent(
+    "14 rue d'Anthoine 13002 Marseille"
+  );
   return (
     <>
       <section className="pt-28 sm:pt-32 pb-12 sm:pb-16 container-x">
@@ -151,28 +177,47 @@ function ContactPage() {
         </div>
 
         <div className="lg:col-span-5 flex flex-col">
-          <SectionHeader eyebrow="Nous trouver" title="Au cœur des ports d'export." />
+          <SectionHeader eyebrow="Nous trouver" title="Au cœur du port de Marseille." />
           <div className="mt-8 sm:mt-10 flex-1 flex flex-col gap-4">
             <div className="relative w-full overflow-hidden border border-border bg-muted aspect-[4/3] sm:aspect-square lg:aspect-auto lg:flex-1 lg:min-h-[420px]">
-              <iframe
-                title="GACTI sur la carte — Marseille"
-                src="https://www.google.com/maps?q=Marseille+port+Fos&output=embed"
-                className="absolute inset-0 w-full h-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+  
+              {hasConsent ? (
+                <iframe
+                  title="GACTI — 14 rue d’Anthoine, Marseille"
+                  src={`https://www.google.com/maps?q=${MAP_QUERY}&output=embed`}
+                  className="absolute inset-0 w-full h-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-navy/5 text-center p-6">
+                  <div>
+                    <MapPin className="mx-auto size-6 text-gold" />
+                    <p className="mt-3 text-sm text-navy/70">
+                      Carte désactivée sans consentement cookies
+                    </p>
+                    <p className="mt-1 text-[11px] text-navy/40">
+                      Google Maps nécessite l’acceptation des cookies
+                    </p>
+                  </div>
+                </div>
+              )}
+
             </div>
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Marseille+port+Fos"
+              href={`https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-between gap-2 border border-border bg-card hover:border-gold hover:text-gold px-4 py-3 text-sm text-navy transition-colors"
             >
               <span className="flex items-center gap-2">
-                <MapPin className="size-4 text-gold" /> Ouvrir dans Google Maps
+                <MapPin className="size-4 text-gold" />
+                Ouvrir dans Google Maps
               </span>
-              <span className="text-[10px] tracking-widest uppercase text-navy/50">Itinéraire</span>
+              <span className="text-[10px] tracking-widest uppercase text-navy/50">
+                Itinéraire
+              </span>
             </a>
           </div>
         </div>

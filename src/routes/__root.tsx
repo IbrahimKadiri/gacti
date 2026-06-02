@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { CookieBanner } from "@/components/CookieBanner";
 
 import appCss from "../styles.css?url";
 
@@ -81,6 +82,7 @@ function RootComponent() {
       </main>
       <Footer />
       <WhatsAppFab />
+      <CookieBanner />
     </>
   );
 }

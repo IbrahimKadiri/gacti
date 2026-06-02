@@ -5,7 +5,7 @@ export const SITE = {
   phone: "+33 6 08 46 57 41",
   phoneRaw: "+33608465741",
   email: "contact@gacti.fr",
-  address: "Proche des ports d'export, France",
+  address: "14 rue d’Anthoine 13002 Marseille",
   whatsappMessage: "Bonjour GACTI, j'ai une question concernant…",
 };
 

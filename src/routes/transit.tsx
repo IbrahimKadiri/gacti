@@ -31,7 +31,7 @@ const services = [
   {
     icon: FileCheck,
     title: "Services douaniers (EX-A, MRN)",
-    desc: "Établissement des déclarations d'exportation EX-A, obtention du MRN et accompagnement complet sur les formalités douanières françaises et internationales.",
+    desc: "Déclaration d’exportation EX-A, obtention du MRN et gestion complète des formalités douanières en France et à l’international.",
   },
   {
     icon: IdCard,
@@ -51,10 +51,10 @@ const services = [
 ];
 
 const steps = [
-  { n: "01", title: "Brief", desc: "Vous nous transmettez les informations du véhicule et la destination." },
-  { n: "02", title: "Formalités", desc: "Nous gérons douane, immatriculation provisoire et assurance." },
-  { n: "03", title: "Préparation", desc: "Le véhicule est inspecté, sécurisé et stationné sur notre parc." },
-  { n: "04", title: "Expédition", desc: "Remise au transporteur, suivi du chargement, transmission des documents." },
+  { n: "01", title: "Réception du dossier", desc: "Vous nous transmettez les informations du véhicule et la destination." },
+  { n: "02", title: "Formalités administratives", desc: "Nous réalisons les déclarations douanières, l’immatriculation provisoire et l’assurance." },
+  { n: "03", title: "Préparation du véhicule", desc: "Contrôle, sécurisation et stationnement sur notre parc à proximité des ports." },
+  { n: "04", title: "Remise au transporteur", desc: "Remise au transporteur, suivi du chargement, transmission des documents." },
 ];
 
 function TransitPage() {
@@ -62,8 +62,8 @@ function TransitPage() {
     <>
       <PageHero
         eyebrow="Service · Transit véhicules"
-        title="Le transit, sans la moindre friction."
-        intro="Du dossier douanier à la remise au navire, GACTI prend en charge l'intégralité du transit de votre véhicule en France. Un seul interlocuteur, des délais maîtrisés."
+        title="Transit de véhicules à Marseille, maîtrisé de bout en bout."
+        intro="Du dossier douanier à la remise au transporteur maritime, nous gérons l’ensemble des formalités d’export depuis notre zone logistique proche des ports de Marseille."
         image={transitImg}
       />
 
@@ -93,7 +93,7 @@ function TransitPage() {
               <span className="w-8 h-px bg-gold" /> Notre processus
             </div>
             <h2 className="mt-5 font-serif text-4xl md:text-5xl text-cream text-balance max-w-3xl">
-              Quatre étapes, <span className="italic">une signature</span>.
+              Un <span className="italic">processus</span> structuré et maîtrisé.
             </h2>
           </Reveal>
           <div className="mt-16 grid md:grid-cols-4 gap-8">
@@ -112,7 +112,7 @@ function TransitPage() {
               to="/devis"
               className="mt-16 inline-flex items-center gap-3 bg-gold text-navy px-7 py-4 hover:bg-cream transition-colors"
             >
-              Demander un devis transit <ArrowRight className="size-5" />
+              Obtenir mon devis transit <ArrowRight className="size-5" />
             </Link>
           </Reveal>
         </div>

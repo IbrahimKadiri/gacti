@@ -4,7 +4,7 @@ import { Reveal } from "./Reveal";
 
 export function CTASection({
   title = "Un devis express en moins de 24 h.",
-  subtitle = "Décrivez votre projet, notre équipe vous répond avec une proposition claire et chiffrée.",
+  subtitle = "Décrivez votre projet, nous nous engageons à traiter toutes les demandes dans un délai de moins de 24 heures pour vous offrir un service rapide et efficace",
 }: {
   title?: string;
   subtitle?: string;
@@ -21,7 +21,7 @@ export function CTASection({
             <h2 className="mt-5 font-serif text-4xl md:text-6xl text-cream text-balance leading-[1.05]">
               {title}
             </h2>
-            <p className="mt-6 max-w-xl text-cream/70 text-lg">{subtitle}</p>
+            <p className="mt-6 max-w-xl text-cream/70 text-lg italic">{subtitle}</p>
           </Reveal>
           <Reveal className="md:col-span-2 flex md:justify-end" delay={0.1}>
             <Link

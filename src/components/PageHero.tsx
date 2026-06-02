@@ -36,7 +36,7 @@ export function PageHero({
           <h1 className="mt-6 font-serif text-5xl md:text-7xl text-cream text-balance leading-[1.05]">
             {title}
           </h1>
-          <p className="mt-8 max-w-2xl text-lg md:text-xl text-cream/75 leading-relaxed text-pretty">
+          <p className="mt-8 max-w-2xl text-lg md:text-xl text-cream/75 leading-relaxed text-pretty italic">
             {intro}
           </p>
         </motion.div>
