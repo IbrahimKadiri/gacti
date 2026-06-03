@@ -25,7 +25,7 @@ const ldJson = {
     "@type": "PostalAddress",
     addressCountry: "FR",
     addressLocality: "Marseille",
-    streetAddress: "Proche des ports d'export",
+    streetAddress: "14 rue d’Anthoine 13002 Marseille",
   },
   areaServed: ["FR", "MA", "TN", "DZ", "SN", "CI", "CM", "AE"],
   description:

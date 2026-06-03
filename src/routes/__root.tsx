@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { CookieBanner } from "@/components/CookieBanner";
+import { HeadContent } from '@tanstack/react-router'
 
 import appCss from "../styles.css?url";
 
@@ -76,6 +77,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
+      <HeadContent />
       <Navbar />
       <main className="min-h-screen">
         <Outlet />
