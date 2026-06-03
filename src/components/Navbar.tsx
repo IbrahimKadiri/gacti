@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, Phone, Mail, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,9 +15,16 @@ const links = [
   { to: "/contact", label: "Contact", num: "07" },
 ] as const;
 
+function isLightPage(pathname: string) {
+  return pathname.startsWith("/contact");
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const lightPage = isLightPage(location.pathname);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -33,6 +40,8 @@ export function Navbar() {
     };
   }, [open]);
 
+  const navSolid = scrolled || open || lightPage;
+
   const wa = `https://wa.me/${SITE.phoneRaw.replace("+", "")}?text=${encodeURIComponent(
     SITE.whatsappMessage
   )}`;
@@ -42,8 +51,8 @@ export function Navbar() {
       {/* HEADER */}
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 backdrop-saturate-150 ${
-          scrolled || open
-            ? "bg-cream/80 backdrop-blur-xl border-b border-border/40 shadow-sm"
+          navSolid
+            ? "bg-cream/85 backdrop-blur-xl border-b border-border/40 shadow-sm"
             : "bg-transparent"
         }`}
       >
@@ -52,48 +61,53 @@ export function Navbar() {
           {/* LOGO */}
           <Link
             to="/"
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-3"
             onClick={() => setOpen(false)}
-            aria-label="GACTI — accueil"
           >
             <img
               src={logoGacti}
               alt="GACTI"
-              className="h-24 sm:h-28 w-auto object-contain transition-opacity group-hover:opacity-80"
+              className={`h-24 sm:h-28 w-auto transition-all duration-300 ${
+    navSolid ? "invert-0" : "invert brightness-0"
+  }`}
             />
           </Link>
 
-          {/* DESKTOP NAV (UPGRADED) */}
-          <nav
-            className="hidden lg:flex items-center gap-10 xl:gap-12"
-            aria-label="Navigation principale"
-          >
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="group relative flex flex-col leading-none"
-                activeOptions={{ exact: l.to === "/" }}
-              >
-               
+          {/* DESKTOP NAV */}
+          <nav className="hidden lg:flex items-center gap-10 xl:gap-12">
+            {links.map((l) => {
+              const active = location.pathname === l.to;
 
-                {/* LABEL */}
-                <span className="text-sm font-medium tracking-wide text-navy/70 group-hover:text-navy transition-colors">
-                  {l.label}
-                </span>
+              return (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="group relative flex flex-col"
+                >
+                  <span
+                    className={`text-[15px] font-medium tracking-wide transition-colors ${
+                      navSolid ? "text-navy" : "text-white"
+                    } ${active ? "text-gold" : ""} group-hover:text-gold`}
+                  >
+                    {l.label}
+                  </span>
 
-                {/* UNDERLINE */}
-                <span className="mt-1 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-              </Link>
-            ))}
+                  <span
+                    className={`mt-1 h-[2px] transition-all duration-300 ${
+                      active ? "w-full bg-gold" : "w-0 bg-gold group-hover:w-full"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* ACTIONS */}
-          <div className="flex items-center gap-2 sm:gap-3 relative z-[60]">
+          <div className="flex items-center gap-2 sm:gap-3">
 
             <Link
               to="/devis"
-              className="hidden sm:inline-flex items-center gap-2 bg-navy text-cream px-5 py-2.5 text-xs lg:text-sm tracking-wide hover:bg-gold hover:text-navy transition-all duration-300 shadow-sm hover:shadow-md"
+              className="hidden sm:inline-flex items-center gap-2 bg-navy text-cream px-5 py-2.5 text-sm font-medium tracking-wide hover:bg-gold hover:text-navy transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Devis express
               <ArrowRight className="size-4" />
@@ -103,7 +117,7 @@ export function Navbar() {
               aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="lg:hidden text-navy w-11 h-11 flex items-center justify-center -mr-2 hover:bg-navy/5 transition-colors rounded-sm"
+              className="lg:hidden text-navy w-11 h-11 flex items-center justify-center"
             >
               <div className="relative w-5 h-5">
                 <span
@@ -123,7 +137,7 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU  */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -143,10 +157,12 @@ export function Navbar() {
 
             <div className="relative container-x pt-24 pb-10 min-h-full flex flex-col">
 
+              {/* MENU LABEL */}
               <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80 flex items-center gap-3">
                 <span className="w-8 h-px bg-gold/60" /> Menu
               </div>
 
+              {/* LINKS */}
               <nav className="mt-8 flex-1">
                 <ul className="divide-y divide-cream/10">
                   {links.map((l, i) => (
@@ -159,36 +175,37 @@ export function Navbar() {
                       <Link
                         to={l.to}
                         onClick={() => setOpen(false)}
-                        className="group flex items-baseline justify-between py-4 sm:py-5 hover:bg-white/5 px-2 transition-colors"
-                        activeOptions={{ exact: l.to === "/" }}
+                        className="group flex justify-between py-4 px-2 hover:bg-white/5 transition-colors"
                       >
-                        <span className="flex items-baseline gap-4 sm:gap-5">
-                          <span className="text-[10px] tracking-[0.2em] text-cream/40 font-mono">
+                        <span className="flex gap-4">
+                          <span className="text-[10px] text-cream/40 font-mono">
                             {l.num}
                           </span>
-                          <span className="font-serif text-3xl sm:text-4xl text-cream group-hover:text-gold transition-colors">
+                          <span className="font-serif text-3xl text-cream group-hover:text-gold">
                             {l.label}
                           </span>
                         </span>
 
-                        <ArrowRight className="size-4 text-cream/40 group-hover:text-gold group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="size-4 text-cream/40 group-hover:text-gold" />
                       </Link>
                     </motion.li>
                   ))}
                 </ul>
               </nav>
 
+              {/* CTA BLOCK */}
               <div className="mt-8 pt-8 border-t border-cream/10 space-y-4">
 
                 <Link
                   to="/devis"
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between bg-gold text-navy px-5 py-4 text-sm tracking-wide hover:bg-cream transition-colors"
+                  className="flex justify-between bg-gold text-navy px-5 py-4 text-sm font-medium"
                 >
-                  <span className="font-medium">Devis express · réponse 24 h</span>
+                  Devis express · réponse 24 h
                   <ArrowRight className="size-4" />
                 </Link>
 
+                
                 <div className="grid grid-cols-3 gap-3">
 
                   <a href={`tel:${SITE.phoneRaw}`} className="flex flex-col items-center justify-center gap-1.5 border border-cream/15 hover:border-gold hover:text-gold py-3 transition-colors">
@@ -213,6 +230,7 @@ export function Navbar() {
                 </div>
 
               </div>
+
             </div>
           </motion.div>
         )}
