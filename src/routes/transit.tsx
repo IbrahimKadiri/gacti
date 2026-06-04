@@ -5,6 +5,8 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
 import transitImg from "@/assets/transit-vehicles.jpg";
+import * as Accordion from "@radix-ui/react-accordion";
+import { ChevronDown } from "lucide-react";
 
 export const Route = createFileRoute("/transit")({
   head: () => ({
@@ -30,23 +32,97 @@ export const Route = createFileRoute("/transit")({
 const services = [
   {
     icon: FileCheck,
-    title: "Services douaniers (EX-A, MRN)",
-    desc: "Déclaration d’exportation EX-A, obtention du MRN et gestion complète des formalités douanières en France et à l’international.",
+    title: "EX-A",
+    price: "60 €",
+    desc:
+      "Déclaration douanière obligatoire attestant la sortie légale du véhicule de l’Union Européenne.",
+    highlights: [
+      "Conformité douanière",
+      "Attestation de sortie UE",
+      "Possibilité de récupération TVA",
+    ],
   },
+
+  {
+    icon: FileCheck,
+    title: "MRN",
+    price: "80 €",
+    desc:
+      "Validation et gestion du numéro MRN permettant le suivi de votre dossier dans le système douanier européen.",
+    highlights: [
+      "Numéro officiel unique",
+      "Suivi douanier",
+      "Validation administrative",
+    ],
+  },
+
   {
     icon: IdCard,
     title: "Carte provisoire d'immatriculation",
-    desc: "Demande et délivrance de la plaque WW transit (W garage) pour permettre la circulation légale du véhicule jusqu'au port d'embarquement.",
+    price: "60 €",
+    desc:
+      "Permet au véhicule de circuler légalement avant son exportation vers sa destination finale.",
+    highlights: [
+      "Circulation légale",
+      "Traitement rapide",
+      "Gestion administrative complète",
+    ],
   },
+
+  {
+    icon: IdCard,
+    title: "Plaques d'immatriculation",
+    price: "20 €",
+    desc:
+      "Plaques conformes destinées aux véhicules exportés avant leur embarquement.",
+    highlights: [
+      "Conformes export",
+      "Disponibilité rapide",
+      "Prêtes à l'emploi",
+    ],
+  },
+
   {
     icon: ShieldCheck,
-    title: "Assurance temporaire (1-30 jours)",
-    desc: "Souscription d'une assurance auto temporaire d'une durée modulable de 1 à 30 jours, adaptée à votre période de transit.",
+    title: "Assurance temporaire",
+    price: "À partir de 45 €",
+    desc:
+      "Couverture temporaire adaptée aux véhicules destinés à l’export pour circuler en toute conformité.",
+    highlights: [
+      "1 à 30 jours",
+      "Conforme à la législation",
+      "Activation rapide",
+    ],
+    extra: [
+      { label: "1 jour", price: "45 €" },
+      { label: "3 jours", price: "70 €" },
+      { label: "8 jours", price: "110 €" },
+      { label: "10 jours", price: "140 €" },
+      { label: "15 jours", price: "160 €" },
+      { label: "30 jours", price: "260 €" },
+    ],
   },
+
   {
     icon: ParkingSquare,
-    title: "Stationnement & remise des véhicules",
-    desc: "Parc sécurisé proche des terminaux, gardiennage, lavage, contrôle technique et remise officielle au transporteur maritime.",
+    title: "Stationnement & remise",
+    price: "À partir de 30 €",
+    desc:
+      "Stockage sécurisé proche du port de Marseille avec remise organisée au transporteur maritime.",
+    highlights: [
+      "Parc sécurisé",
+      "Proximité immédiate du port",
+      "Gestion logistique complète",
+    ],
+    extra: [
+      { label: "Jour arrivée camion", price: "30 €" },
+      { label: "1 à 2 nuits", price: "50 €" },
+      { label: "Au-delà de 2 nuits", price: "50 € + 10 €/nuit" },
+      {
+        label: "Longue durée (mois)",
+        price: "110 €/mois + 50 € sortie",
+      },
+    ],
   },
 ];
 
@@ -57,6 +133,49 @@ const steps = [
   { n: "04", title: "Remise au transporteur", desc: "Remise au transporteur, suivi du chargement, transmission des documents." },
 ];
 
+const faq = [
+  {
+    question: "Pourquoi ai-je besoin d’un document EX-A pour exporter mon véhicule ?",
+    answer:
+      "Le document EX-A est une déclaration douanière indispensable pour exporter un véhicule hors de l’Union Européenne. Il permet d’attester officiellement la sortie du véhicule du territoire européen, constitue une étape essentielle pour garantir la conformité de votre exportation et permet également une récupération de TVA.\n\nChez GACTI, nous prenons en charge l’ensemble des formalités liées à l’établissement de cette déclaration. Une fois le véhicule exporté, nous fournissons les documents définitifs attestant de sa sortie. Grâce à notre expérience dans le transit international de véhicules, nous assurons un traitement rapide, conforme et sécurisé afin que vous puissiez exporter votre véhicule en toute sérénité."
+  },
+
+  {
+    question: "À quoi sert un numéro MRN dans le cadre d’une exportation ?",
+    answer:
+      "Le MRN (Movement Reference Number) est un numéro unique délivré par les autorités douanières européennes lors d’une déclaration d’exportation ou d’importation. Il sert de référence officielle pour identifier et suivre votre dossier dans les systèmes douaniers.\n\nLorsque vous achetez un véhicule à l’étranger ou auprès d’un professionnel, ce numéro peut vous être transmis dans le cadre de la procédure d’export. GACTI vérifie la validité des informations associées au MRN et s’assure que votre dossier respecte les exigences douanières avant l’embarquement du véhicule."
+  },
+
+  {
+    question: "Pourquoi passer par GACTI pour obtenir une carte provisoire d’immatriculation (CPI) ?",
+    answer:
+      "La carte provisoire d’immatriculation permet à un véhicule de circuler légalement avant son exportation. Son obtention nécessite plusieurs démarches administratives qui peuvent rapidement devenir complexes lorsqu’on ne connaît pas les procédures.\n\nEn confiant cette démarche à GACTI, vous bénéficiez d’un accompagnement complet : vérification des documents, constitution du dossier, suivi administratif et transmission du document une fois validé. Notre expertise nous permet d’accélérer les démarches tout en garantissant leur conformité. Que vous exportiez un seul véhicule ou une flotte complète, nous adaptons notre accompagnement à vos besoins."
+  },
+
+  {
+    question: "Quelle assurance choisir pour un véhicule destiné à l’export ?",
+    answer:
+      "Une assurance temporaire permet de couvrir le véhicule pendant sa période de transit avant embarquement. Les durées proposées vont de 1 à 30 jours selon vos besoins.",
+  },
+
+  {
+    question: "Où sont stationnés les véhicules avant leur départ ?",
+    answer:
+      "Les véhicules sont stockés dans un espace sécurisé à proximité immédiate du port de Marseille afin de faciliter leur préparation, leur contrôle et leur remise au transporteur maritime.",
+  },
+
+  {
+    question: "Quels documents dois-je fournir ?",
+    answer:
+      "Selon votre situation, nous pouvons demander une pièce d'identité, les documents de propriété du véhicule, la facture d'achat, le certificat de cession ou encore les informations techniques nécessaires à l'exportation.",
+  },
+
+  {
+    question: "Combien de temps prennent les formalités ?",
+    answer:
+      "Les délais varient selon le pays de destination et les documents à obtenir. Notre équipe vous accompagne afin de traiter votre dossier dans les meilleurs délais possibles.",
+  },
+];
 function TransitPage() {
   return (
     <>
@@ -70,22 +189,82 @@ function TransitPage() {
       <section className="py-24 md:py-32 container-x">
         <SectionHeader
           eyebrow="Prestations"
-          title="Tout ce dont votre véhicule a besoin avant le départ."
-          intro="Nous prenons en main les démarches administratives, juridiques et logistiques pour que vous n'ayez plus qu'à valider."
+          title="Prestations & tarifs"
+          intro="Retrouvez l'ensemble des formalités administratives et services logistiques nécessaires à l’exportation de votre véhicule depuis Marseille."
         />
-        <div className="mt-16 grid md:grid-cols-2 gap-px bg-border">
+        <div className="mt-16 space-y-6">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 0.06}>
-              <div className="bg-cream p-8 md:p-10 h-full hover:bg-card transition-colors group">
-                <s.icon className="size-9 text-gold" />
-                <h3 className="mt-6 font-serif text-2xl text-navy">{s.title}</h3>
-                <p className="mt-3 text-navy/70 leading-relaxed">{s.desc}</p>
+              <div className="bg-card border border-border p-8 md:p-10 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-[2px]">
+
+                {/* HEADER */}
+                <div className="flex items-start justify-between gap-4">
+                  <s.icon className="size-8 text-gold" />
+
+                  <div className="text-right">
+                    <div className="text-xs uppercase tracking-[0.25em] text-navy/50">
+                      Tarif
+                    </div>
+
+                    <div className="font-serif text-3xl text-gold tracking-wide">
+                      {s.price}
+                    </div>
+                  </div>
+                </div>
+
+                {/* TITLE */}
+                <h3 className="mt-6 font-serif text-2xl text-navy">
+                  {s.title}
+                </h3>
+
+                {/* DESC */}
+                <p className="mt-3 text-navy/70 leading-relaxed">
+                  {s.desc}
+                </p>
+
+                {/* HIGHLIGHTS */}
+                <div className="mt-6 border-t border-border pt-6">
+                  <ul className="space-y-3">
+                    {s.highlights.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-3 text-sm text-navy/75"
+                      >
+                        <span className="mt-1 size-2 rounded-full bg-gold shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* EXTRA PRICING (AMÉLIORÉ) */}
+                  {s.extra && (
+                    <div className="mt-6 rounded-xl bg-cream border-l-4 border-gold p-5">
+                      <div className="text-xs uppercase tracking-[0.2em] text-navy/50 mb-4">
+                        Détail des tarifs
+                      </div>
+
+                      <div className="space-y-3">
+                        {s.extra.map((item) => (
+                          <div
+                            key={item.label}
+                            className="flex items-center justify-between text-sm text-navy/70 border-b border-border/40 pb-2 last:border-0"
+                          >
+                            <span>{item.label}</span>
+                            <span className="font-medium text-navy">
+                              {item.price}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
-
+    
       <section className="bg-navy text-cream py-24 md:py-32">
         <div className="container-x">
           <Reveal>
@@ -115,6 +294,48 @@ function TransitPage() {
               Obtenir mon devis transit <ArrowRight className="size-5" />
             </Link>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="py-24 md:py-32 bg-cream">
+        <div className="container-x max-w-5xl">
+
+          <SectionHeader
+            eyebrow="Questions fréquentes"
+            title="Tout savoir avant l'exportation de votre véhicule"
+            intro="Retrouvez les réponses aux questions les plus fréquentes concernant les formalités douanières, l'immatriculation provisoire et la préparation de votre véhicule avant son départ."
+          />
+
+          <Accordion.Root
+            type="single"
+            collapsible
+            className="mt-16 rounded-2xl border border-border bg-card overflow-hidden"
+          >
+            {faq.map((item, index) => (
+              <Accordion.Item
+                key={index}
+                value={`item-${index}`}
+                className="border-b border-border last:border-b-0"
+              >
+                <Accordion.Header>
+                  <Accordion.Trigger className="group flex w-full items-center justify-between px-6 md:px-8 py-6 text-left hover:bg-muted/40 transition-colors">
+                    <span className="font-serif text-xl md:text-2xl text-navy">
+                      {item.question}
+                    </span>
+
+                    <ChevronDown className="size-5 shrink-0 text-gold transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                  </Accordion.Trigger>
+                </Accordion.Header>
+
+                <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                  <div className="px-6 md:px-8 pb-6 text-navy/70 leading-relaxed text-base md:text-lg whitespace-pre-line">
+                    {item.answer}
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
+
         </div>
       </section>
 

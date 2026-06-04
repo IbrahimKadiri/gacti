@@ -40,15 +40,7 @@ export const Route = createFileRoute("/")({
         name: "description",
         content:
           "Transit véhicules, transport maritime et distribution agroalimentaire. 15+ ans d'expertise, 30+ pays desservis. Devis express en moins de 24h.",
-      },
-      { property: "og:title", content: "GACTI — Vos exports, orchestrés avec précision" },
-      {
-        property: "og:description",
-        content:
-          "Spécialiste français du transit véhicules et transport maritime international. Devis express sous 24h.",
-      },
-      { property: "og:image", content: heroPort },
-      { name: "twitter:image", content: heroPort },
+      }
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(ldJson) },

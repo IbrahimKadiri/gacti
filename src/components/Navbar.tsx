@@ -16,7 +16,7 @@ const links = [
 ] as const;
 
 function isLightPage(pathname: string) {
-  return pathname.startsWith("/contact");
+  return pathname.startsWith("/contact") || pathname.startsWith("/devis");
 }
 
 export function Navbar() {

@@ -15,6 +15,7 @@ export const Route = createFileRoute("/devis")({
       },
       { property: "og:title", content: "Devis express — GACTI" },
       { property: "og:description", content: "Devis personnalisé sous 24 h. Quatre étapes simples." },
+      { property: "og:image", content: "https://ibrahimkadiri.github.io/gacti/og/hero-port.jpg" },
     ],
   }),
   component: DevisPage,

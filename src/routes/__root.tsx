@@ -50,13 +50,7 @@ export const Route = createRootRoute({
       { property: "og:url", content: "https://gacti.fr" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@gacti" },
-      { name: "theme-color", content: "#0A0F1E" },
-      { property: "og:title", content: "GACTI — Transit véhicules, transport maritime & export" },
-      { name: "twitter:title", content: "GACTI — Transit véhicules, transport maritime & export" },
-      { property: "og:description", content: "Spécialiste français du transit véhicules, transport maritime international et distribution agroalimentaire." },
-      { name: "twitter:description", content: "Spécialiste français du transit véhicules, transport maritime international et distribution agroalimentaire." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b78c01a2-8672-44ba-bd23-0fb2c122a69c/id-preview-d6baf6ea--f7942a1b-20f1-4e8a-a992-764f660f6bdf.lovable.app-1777359606746.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b78c01a2-8672-44ba-bd23-0fb2c122a69c/id-preview-d6baf6ea--f7942a1b-20f1-4e8a-a992-764f660f6bdf.lovable.app-1777359606746.png" },
+      { name: "theme-color", content: "#0A0F1E" }
     ],
     links: [
       { rel: "stylesheet", href: appCss },
