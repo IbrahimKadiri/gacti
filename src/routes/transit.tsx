@@ -187,83 +187,107 @@ function TransitPage() {
       />
 
       <section className="py-24 md:py-32 container-x">
-        <SectionHeader
-          eyebrow="Prestations"
-          title="Prestations & tarifs"
-          intro="Retrouvez l'ensemble des formalités administratives et services logistiques nécessaires à l’exportation de votre véhicule depuis Marseille."
-        />
-        <div className="mt-16 space-y-6">
-          {services.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.06}>
-              <div className="bg-card border border-border p-8 md:p-10 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-[2px]">
+  <SectionHeader
+    eyebrow="Prestations"
+    title="Prestations & tarifs"
+    intro="Retrouvez l'ensemble des formalités administratives et services logistiques nécessaires à l’exportation de votre véhicule depuis Marseille."
+  />
 
-                {/* HEADER */}
-                <div className="flex items-start justify-between gap-4">
-                  <s.icon className="size-8 text-gold" />
+  <div className="mt-16 space-y-6">
+    {services.map((s, i) => (
+      <Reveal key={s.title} delay={i * 0.06}>
+        <div className="bg-card border border-border p-6 md:p-10 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-[2px]">
 
-                  <div className="text-right">
-                    <div className="text-xs uppercase tracking-[0.25em] text-navy/50">
-                      Tarif
-                    </div>
+          {/* HEADER */}
+          <div className="flex items-start justify-between gap-4 sm:gap-6">
+            <s.icon className="size-7 md:size-8 text-gold shrink-0" />
 
-                    <div className="font-serif text-3xl text-gold tracking-wide">
-                      {s.price}
-                    </div>
+            <div className="text-right">
+              <div className="text-xs uppercase tracking-[0.25em] text-navy/50">
+                Tarif
+              </div>
+
+              <div className="font-serif text-2xl md:text-3xl text-gold tracking-wide">
+                {s.price}
+              </div>
+            </div>
+          </div>
+
+          {/* TITLE */}
+          <h3 className="mt-5 font-serif text-xl md:text-2xl text-navy leading-tight">
+            {s.title}
+          </h3>
+
+          {/* DESC */}
+          <p className="mt-3 text-sm md:text-base text-navy/70 leading-relaxed">
+            {s.desc}
+          </p>
+
+          {/* HIGHLIGHTS */}
+          <div className="mt-6 border-t border-border pt-6">
+            <ul className="space-y-3">
+              {s.highlights.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm md:text-base text-navy/75"
+                >
+                  <span className="mt-1.5 size-2 rounded-full bg-gold shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* DETAIL TARIFS */}
+            {s.extra && (
+              <div className="mt-6 overflow-hidden rounded-xl border border-gold/20 bg-gradient-to-br from-cream to-white">
+
+                <div className="border-b border-gold/15 px-5 py-4">
+                  <div className="text-xs uppercase tracking-[0.25em] text-navy/50">
+                    Détail des tarifs
+                  </div>
+
+                  <div className="mt-1 text-sm text-navy/60">
+                    Tarification selon la formule choisie
                   </div>
                 </div>
 
-                {/* TITLE */}
-                <h3 className="mt-6 font-serif text-2xl text-navy">
-                  {s.title}
-                </h3>
-
-                {/* DESC */}
-                <p className="mt-3 text-navy/70 leading-relaxed">
-                  {s.desc}
-                </p>
-
-                {/* HIGHLIGHTS */}
-                <div className="mt-6 border-t border-border pt-6">
-                  <ul className="space-y-3">
-                    {s.highlights.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-3 text-sm text-navy/75"
+                <div className="p-4 md:p-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {s.extra.map((item) => (
+                      <div
+                        key={item.label}
+                        className="
+                          rounded-xl
+                          border
+                          border-border
+                          bg-white
+                          p-4
+                          transition-all
+                          duration-300
+                          hover:border-gold/40
+                          hover:shadow-sm
+                        "
                       >
-                        <span className="mt-1 size-2 rounded-full bg-gold shrink-0" />
-                        <span>{item}</span>
-                      </li>
+                        <div className="text-xs uppercase tracking-wide text-navy/50">
+                          {item.label}
+                        </div>
+
+                        <div className="mt-2 font-serif text-2xl text-gold">
+                          {item.price}
+                        </div>
+                      </div>
                     ))}
-                  </ul>
-
-                  {/* EXTRA PRICING (AMÉLIORÉ) */}
-                  {s.extra && (
-                    <div className="mt-6 rounded-xl bg-cream border-l-4 border-gold p-5">
-                      <div className="text-xs uppercase tracking-[0.2em] text-navy/50 mb-4">
-                        Détail des tarifs
-                      </div>
-
-                      <div className="space-y-3">
-                        {s.extra.map((item) => (
-                          <div
-                            key={item.label}
-                            className="flex items-center justify-between text-sm text-navy/70 border-b border-border/40 pb-2 last:border-0"
-                          >
-                            <span>{item.label}</span>
-                            <span className="font-medium text-navy">
-                              {item.price}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
+
               </div>
-            </Reveal>
-          ))}
+            )}
+          </div>
         </div>
-      </section>
+      </Reveal>
+    ))}
+  </div>
+</section>
     
       <section className="bg-navy text-cream py-24 md:py-32">
         <div className="container-x">
