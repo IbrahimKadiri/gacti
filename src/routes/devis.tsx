@@ -53,8 +53,16 @@ const variableServices = [
 ];
 
 const maritimeServices = [
-  { id: "maritime-container", title: "Transport Conteneur", subtitle: "Chargement en conteneur 20' ou 40'" },
-  { id: "maritime-roro", title: "Transport RoRo", subtitle: "Roll-on Roll-off, véhicules roulants" },
+  {
+    id: "container",
+    title: "Transport conteneur",
+    subtitle: "FCL / LCL"
+  },
+  {
+    id: "roro",
+    title: "Transport RoRo",
+    subtitle: "Roll-on / Roll-off"
+  }
 ];
 
 type Item = {
@@ -70,11 +78,28 @@ function DevisPage() {
   const [selected, setSelected] = useState<Item[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
-    name: "", email: "", phone: "",
-    loadingPlace: "", deliveryPlace: "",
-    cargoType: "", weight: "",
-    loadingDate: "", deliveryDate: "",
-    message: "",
+    name: "",
+    email: "",
+    phone: "",
+
+    // CONTENEUR
+    containerLoadingCountry: "",
+    containerLoadingCity: "",
+    containerDeliveryCountry: "",
+    containerDeliveryCity: "",
+    cargoType: "",
+    cargoWeight: "",
+    containerLoadingDate: "",
+    containerDeliveryDate: "",
+    containerMessage: "",
+
+    // RORO
+    roroDepartureCountry: "",
+    roroDepartureCity: "",
+    roroArrivalCountry: "",
+    roroArrivalCity: "",
+    roroDate: "",
+    roroMessage: "",
   });
 
   const toggleService = (s: typeof services[0]) => {
@@ -276,37 +301,57 @@ function DevisPage() {
               })}
             </div>
 
-            {/* TRANSPORT MARITIME */}
+              
+           {/* TRANSPORT MARITIME */}
             <div className="bg-white border border-navy/8 p-6 md:p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Ship className="size-5 text-gold" />
-                <h2 className="font-serif text-xl md:text-2xl text-navy">Transport maritime</h2>
+                <h2 className="font-serif text-xl md:text-2xl text-navy">
+                  Transport maritime
+                </h2>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-3 mb-8">
+              <p className="text-sm text-navy/50 mb-6 leading-relaxed">
+                Sélectionnez un ou plusieurs modes de transport maritime.
+                Chaque option nécessite des informations logistiques spécifiques pour établir un devis précis.
+              </p>
+
+              {/* CHOIX TRANSPORT */}
+              <div className="grid md:grid-cols-2 gap-4">
                 {maritimeServices.map((s) => {
                   const active = isSelected(s.id);
+
                   return (
                     <button
                       key={s.id}
+                      type="button"
                       onClick={() => toggleMaritime(s)}
-                      className={`border p-5 text-left transition-all duration-200 w-full ${
+                      className={`border p-5 text-left transition-all duration-200 ${
                         active
                           ? "border-gold bg-gold/5 shadow-sm"
                           : "border-navy/10 hover:border-gold/50"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex justify-between items-start gap-3">
                         <div>
-                          <div className={`font-semibold text-sm md:text-base ${active ? "text-navy" : "text-navy/80"}`}>
+                          <div className="font-semibold text-navy">
                             {s.title}
                           </div>
-                          <div className="text-xs text-navy/40 mt-0.5">{s.subtitle}</div>
-                          <div className="text-xs text-gold/80 mt-2 italic">Sur devis selon destination</div>
+
+                          <div className="text-sm text-navy/50 mt-1">
+                            {s.subtitle}
+                          </div>
+
+                          <div className="text-xs text-gold mt-3 italic">
+                            Sur devis selon destination
+                          </div>
                         </div>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                          active ? "bg-gold border-gold" : "border-navy/20"
-                        }`}>
+
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                            active ? "bg-gold border-gold" : "border-navy/20"
+                          }`}
+                        >
                           {active && <Check className="size-3 text-white" />}
                         </div>
                       </div>
@@ -315,50 +360,164 @@ function DevisPage() {
                 })}
               </div>
 
-              {/* INFOS LOGISTIQUES */}
-              <div className="border-t border-navy/8 pt-6">
-                <h3 className="font-medium text-navy mb-4 text-sm tracking-wide uppercase">
-                  Informations logistiques
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {[
-                    { placeholder: "Pays / Ville de chargement", key: "loadingPlace" },
-                    { placeholder: "Pays / Ville de livraison", key: "deliveryPlace" },
-                    { placeholder: "Type de marchandise (ex: véhicule, conteneur…)", key: "cargoType" },
-                    { placeholder: "Poids estimé (kg)", key: "weight" },
-                  ].map(({ placeholder, key }) => (
+              {/* ===================== */}
+              {/* CONTENEUR FORM */}
+              {/* ===================== */}
+              {isSelected("container") && (
+                <div className="mt-8 border-t border-navy/8 pt-6">
+                  <h3 className="font-serif text-lg text-navy mb-4">
+                    Transport conteneur (FCL / LCL)
+                  </h3>
+
+                  <div className="grid md:grid-cols-2 gap-4">
                     <input
-                      key={key}
-                      placeholder={placeholder}
-                      className="w-full p-3 border border-navy/10 bg-cream/50 text-navy placeholder:text-navy/30 text-sm focus:outline-none focus:border-gold transition-colors"
-                      onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                      placeholder="Pays de chargement"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, containerLoadingCountry: e.target.value })
+                      }
                     />
-                  ))}
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-navy/40 pl-1">Date de chargement</label>
+
                     <input
-                      type="date"
-                      className="w-full p-3 border border-navy/10 bg-cream/50 text-navy text-sm focus:outline-none focus:border-gold transition-colors"
-                      onChange={(e) => setForm({ ...form, loadingDate: e.target.value })}
+                      placeholder="Ville de chargement"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, containerLoadingCity: e.target.value })
+                      }
                     />
+
+                    <input
+                      placeholder="Pays de livraison"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, containerDeliveryCountry: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Ville de livraison"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, containerDeliveryCity: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Type de marchandise"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, cargoType: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Poids estimé (kg)"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, cargoWeight: e.target.value })
+                      }
+                    />
+
+                    <div>
+                      <label className="text-xs text-navy/40">Date de chargement</label>
+                      <input
+                        type="date"
+                        className="w-full mt-1 p-3 border border-navy/10 bg-cream/50 text-sm"
+                        onChange={(e) =>
+                          setForm({ ...form, containerLoadingDate: e.target.value })
+                        }
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-navy/40">Date de livraison souhaitée</label>
+                      <input
+                        type="date"
+                        className="w-full mt-1 p-3 border border-navy/10 bg-cream/50 text-sm"
+                        onChange={(e) =>
+                          setForm({ ...form, containerDeliveryDate: e.target.value })
+                        }
+                      />
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-navy/40 pl-1">Date de livraison souhaitée</label>
-                    <input
-                      type="date"
-                      className="w-full p-3 border border-navy/10 bg-cream/50 text-navy text-sm focus:outline-none focus:border-gold transition-colors"
-                      onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })}
-                    />
-                  </div>
+
+                  <textarea
+                    placeholder="Informations complémentaires (conteneur)"
+                    rows={3}
+                    className="w-full mt-4 p-3 border border-navy/10 bg-cream/50 text-sm resize-none"
+                    onChange={(e) =>
+                      setForm({ ...form, containerMessage: e.target.value })
+                    }
+                  />
                 </div>
-                <textarea
-                  placeholder="Informations complémentaires…"
-                  maxLength={280}
-                  rows={3}
-                  className="w-full mt-3 p-3 border border-navy/10 bg-cream/50 text-navy placeholder:text-navy/30 text-sm focus:outline-none focus:border-gold transition-colors resize-none"
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                />
-              </div>
+              )}
+
+              {/* ===================== */}
+              {/* RORO FORM */}
+              {/* ===================== */}
+              {isSelected("roro") && (
+                <div className="mt-8 border-t border-navy/8 pt-6">
+                  <h3 className="font-serif text-lg text-navy mb-4">
+                    Transport RoRo (Roll-on / Roll-off)
+                  </h3>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <input
+                      placeholder="Pays de départ"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, roroDepartureCountry: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Ville / Port de départ"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, roroDepartureCity: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Pays d’arrivée"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, roroArrivalCountry: e.target.value })
+                      }
+                    />
+
+                    <input
+                      placeholder="Ville / Port d’arrivée"
+                      className="p-3 border border-navy/10 bg-cream/50 text-sm"
+                      onChange={(e) =>
+                        setForm({ ...form, roroArrivalCity: e.target.value })
+                      }
+                    />
+
+                    <div className="md:col-span-2">
+                      <label className="text-xs text-navy/40">
+                        Date de disponibilité du véhicule
+                      </label>
+                      <input
+                        type="date"
+                        className="w-full mt-1 p-3 border border-navy/10 bg-cream/50 text-sm"
+                        onChange={(e) =>
+                          setForm({ ...form, roroDate: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <textarea
+                    placeholder="Informations complémentaires (RoRo)"
+                    rows={3}
+                    className="w-full mt-4 p-3 border border-navy/10 bg-cream/50 text-sm resize-none"
+                    onChange={(e) =>
+                      setForm({ ...form, roroMessage: e.target.value })
+                    }
+                  />
+                </div>
+              )}
             </div>
 
             {/* COORDONNÉES */}
