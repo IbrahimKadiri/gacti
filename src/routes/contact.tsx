@@ -30,7 +30,7 @@ const cards = [
   { icon: Phone, label: "Téléphone", value: SITE.phone, href: `tel:${SITE.phoneRaw}` },
   { icon: Mail, label: "Email", value: SITE.email, href: `mailto:${SITE.email}` },
   { icon: MapPin, label: "Adresse", value: SITE.address },
-  { icon: Clock, label: "Horaires", value: "Lun – Sam · 9 h – 17 h" },
+  { icon: Clock, label: "Horaires", value: "Lundi – Vendredi. • 9h–12h · 13h–17h" }
 ];
 
 function ContactPage() {
@@ -61,7 +61,7 @@ function ContactPage() {
   }, []);
 
   const MAP_QUERY = encodeURIComponent(
-    "14 rue d'Anthoine 13002 Marseille"
+    "25 boulevard LEDRU ROLLIN ZA URBAN PARK LOT 11, 13015 MARSEILLE"
   );
   return (
     <>
@@ -183,7 +183,7 @@ function ContactPage() {
   
               {hasConsent ? (
                 <iframe
-                  title="GACTI — 14 rue d’Anthoine, Marseille"
+                  title="GACTI — 25 boulevard LEDRU ROLLIN ZA URBAN PARK LOT 11, 13015 MARSEILLE"
                   src={`https://www.google.com/maps?q=${MAP_QUERY}&output=embed`}
                   className="absolute inset-0 w-full h-full"
                   loading="lazy"

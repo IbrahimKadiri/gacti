@@ -13,7 +13,7 @@ export const Route = createFileRoute("/equipe")({
       {
         name: "description",
         content:
-          "GACTI (Groupe Abid) : une équipe experte du transit international, du transport maritime et de la logistique export depuis plus de 15 ans.",
+          "GACTI (Groupe Abid) : une équipe experte du transit international, du transport maritime et de la logistique export depuis plus de 10.",
       },
       { property: "og:title", content: "Notre équipe — GACTI" },
       {
@@ -47,7 +47,7 @@ const values = [
   {
     icon: Award,
     title: "Expertise terrain",
-    desc: "Plus de 15 ans d’expérience dans le transit, la logistique portuaire et les formalités internationales.",
+    desc: "Plus de 10 ans d’expérience dans le transit, la logistique portuaire et les formalités internationales.",
   },
 ];
 
@@ -80,7 +80,7 @@ function EquipePage() {
       <PageHero
         eyebrow="À propos · Groupe Abid"
         title="Une structure organisée autour de l’export international."
-        intro="Depuis plus de 15 ans, GACTI accompagne les opérations de transit, de transport maritime et de distribution à l’international depuis les principaux ports français."
+        intro="Depuis plus de 10 ans, GACTI accompagne les opérations de transit, de transport maritime et de distribution à l’international depuis les principaux ports français."
         image={teamImg}
       />
 

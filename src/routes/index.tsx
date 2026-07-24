@@ -25,7 +25,7 @@ const ldJson = {
     "@type": "PostalAddress",
     addressCountry: "FR",
     addressLocality: "Marseille",
-    streetAddress: "14 rue d’Anthoine 13002 Marseille",
+    streetAddress: "25 boulevard LEDRU ROLLIN ZA URBAN PARK LOT 11, 13015 MARSEILLE",
   },
   areaServed: ["FR", "MA", "TN", "DZ", "SN", "CI", "CM", "AE"],
   description:
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Transit véhicules, transport maritime et distribution agroalimentaire. 15+ ans d'expertise, 30+ pays desservis. Devis express en moins de 24h.",
+          "Transit véhicules, transport maritime et distribution agroalimentaire. 10+ ans d'expertise, 30+ pays desservis. Devis express en moins de 24h.",
       }
     ],
     scripts: [
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/")({
 });
 
 const stats = [
-  { value: 15, suffix: "+", label: "Années d'expertise" },
+  { value: 10, suffix: "+", label: "Années d'expertise" },
   { value: 2000, suffix: "+", label: "Véhicules exportés" },
   { value: 30, suffix: "+", label: "Pays desservis" },
   { value: 98, suffix: "%", label: "Clients satisfaits" },

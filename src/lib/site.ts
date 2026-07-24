@@ -5,7 +5,7 @@ export const SITE = {
   phone: "+33 6 08 46 57 41",
   phoneRaw: "+33608465741",
   email: "contact@gacti.fr",
-  address: "14 rue d’Anthoine 13002 Marseille",
+  address: "25 boulevard LEDRU ROLLIN ZA URBAN PARK LOT 11, 13015 MARSEILLE",
   whatsappMessage: "Bonjour GACTI, j'ai une question concernant…",
 };
 

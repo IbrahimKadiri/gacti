@@ -33,7 +33,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "GACTI — Groupe Abid de Commerce et Transports Internationaux. Spécialiste du transit véhicules, transport maritime et distribution agroalimentaire depuis plus de 15 ans.",
+          "GACTI — Groupe Abid de Commerce et Transports Internationaux. Spécialiste du transit véhicules, transport maritime et distribution agroalimentaire depuis plus de 10 ans.",
       },
       {
         name: "keywords",

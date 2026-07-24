@@ -21,8 +21,10 @@ export const Route = createFileRoute("/devis")({
 const services = [
   { id: "exa", title: "EX-A", subtitle: "Déclaration d'exportation", price: 60, icon: FileText },
   { id: "mrn", title: "MRN", subtitle: "Mouvement de référence", price: 80, icon: FileText },
-  { id: "cpi", title: "Carte provisoire", subtitle: "Immatriculation temporaire", price: 60, icon: FileText },
-  { id: "plates", title: "Plaques export", subtitle: "Plaques W garage", price: 20, icon: FileText },
+  { id: "cpi", title: "CPI", subtitle: "Certificat immatriculation temporaire", price: 60, icon: FileText },
+  { id: "plates", title: "Plaques export", subtitle: "Plaques W garage", price: 30, icon: FileText },
+  { id: "CPI+P", title: "CPI + Plaques", subtitle: "Certificat provisoire d'immatriculation + plaques W garage", price: 80, icon: FileText },
+
 ];
 
 const variableServices = [
@@ -31,24 +33,47 @@ const variableServices = [
     title: "Assurance temporaire",
     icon: Shield,
     options: [
-      { label: "1 jour", price: 45 },
+      { label: "1 jour", price: 50 },
       { label: "3 jours", price: 70 },
       { label: "8 jours", price: 110 },
       { label: "10 jours", price: 140 },
       { label: "15 jours", price: 160 },
-      { label: "30 jours", price: 260 },
+      { label: "30 jours", price: 220 },
     ],
   },
-  {
-    id: "parking",
-    title: "Stationnement & remise",
+   {
+    id: "parking-port",
+    title: "Stationnement PORT & remise véhicule",
     icon: ParkingSquare,
     options: [
-      { label: "Jour arrivée camion", price: 30 },
-      { label: "1 à 2 nuits", price: 50 },
-      { label: "Au-delà de 2 nuits", price: 80 },
-      { label: "Longue durée", price: 110 },
+      {
+        label: "1 à 8 jours",
+        price: 80,
+      },
+      {
+        label: "8 à 15 jours",
+        price: 120,
+      },
+      {
+        label: "15 à 31 jours",
+        price: 160,
+      },
     ],
+  },
+
+  {
+    id: "parking-bureau",
+    title: "Stationnement Bureau & remise véhicule",
+    icon: ParkingSquare,
+    options: [
+      {
+        label: "Pack 2 nuits",
+        price: 50,
+      },
+    ],
+    note:
+      "Uniquement pour les clients réalisant leurs formalités administratives chez GACTI. +10 € par nuit supplémentaire.",
+    variableNightPrice: 10,
   },
 ];
 
@@ -75,6 +100,7 @@ type Item = {
 };
 
 function DevisPage() {
+  const [extraNights, setExtraNights] = useState(0);
   const [selected, setSelected] = useState<Item[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
@@ -126,17 +152,42 @@ function DevisPage() {
     );
   };
 
-  const selectOption = (service: typeof variableServices[0], opt: { label: string; price: number }) => {
-    setSelected((prev) => {
-      const filtered = prev.filter((x) => x.id !== service.id);
-      return [...filtered, { id: service.id, title: service.title, price: opt.price, quantity: 1, option: opt.label }];
-    });
-  };
+  const selectOption = (
+  service: typeof variableServices[0],
+  opt: { label: string; price: number }
+) => {
+  setSelected((prev) => {
+    const current = prev.find((x) => x.id === service.id);
 
+    // Désélection si on reclique sur la même option
+    if (current?.option === opt.label) {
+      return prev.filter((x) => x.id !== service.id);
+    }
+
+    // Sinon remplacer par la nouvelle option
+    return [
+      ...prev.filter((x) => x.id !== service.id),
+      {
+        id: service.id,
+        title: service.title,
+        price: opt.price,
+        quantity: 1,
+        option: opt.label,
+      },
+    ];
+  });
+};
   const total = useMemo(() =>
-    selected.reduce((acc, s) => acc + (s.price ?? 0) * s.quantity, 0),
-    [selected]
-  );
+  selected.reduce((acc, s) => {
+    let price = (s.price ?? 0) * s.quantity;
+
+    if (s.id === "parking-bureau") {
+      price += extraNights * 10;
+    }
+
+    return acc + price;
+  }, 0),
+[selected, extraNights]);
 
   const isSelected = (id: string) => !!selected.find((x) => x.id === id);
   const getSelected = (id: string) => selected.find((x) => x.id === id);
@@ -275,27 +326,80 @@ function DevisPage() {
                       )}
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
-                      {s.options.map((opt) => {
-                        const active = sel?.option === opt.label;
-                        return (
-                          <button
-                            key={opt.label}
-                            onClick={() => selectOption(s, opt)}
-                            className={`border p-3 md:p-4 text-left transition-all duration-200 ${
-                              active
-                                ? "border-gold bg-gold/5 shadow-sm"
-                                : "border-navy/10 hover:border-gold/50"
-                            }`}
-                          >
-                            <div className="flex items-start justify-between gap-1">
-                              <div className="text-xs md:text-sm text-navy/70">{opt.label}</div>
-                              {active && <Check className="size-3.5 text-gold shrink-0 mt-0.5" />}
-                            </div>
-                            <div className="font-serif text-gold text-base md:text-lg mt-1">{opt.price} €</div>
-                          </button>
-                        );
-                      })}
-                    </div>
+  {s.options.map((opt) => {
+    const active = sel?.option === opt.label;
+
+    return (
+      <button
+        key={opt.label}
+        onClick={() => selectOption(s, opt)}
+        className={`border p-3 md:p-4 text-left transition-all duration-200 ${
+          active
+            ? "border-gold bg-gold/5 shadow-sm"
+            : "border-navy/10 hover:border-gold/50"
+        }`}
+      >
+        <div className="text-xs md:text-sm text-navy/70">
+          {opt.label}
+        </div>
+
+        <div className="font-serif text-gold text-base md:text-lg mt-1">
+          {opt.price} €
+        </div>
+      </button>
+    );
+  })}
+</div>
+
+
+{/* Nuits supplémentaires */}
+{s.variableNightPrice && sel && (
+  <div className="mt-5 rounded-xl border border-navy/10 bg-cream/50 p-4">
+
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+      <div>
+        <div className="text-sm font-medium text-navy">
+          Nuits supplémentaires
+        </div>
+
+        <div className="text-xs text-navy/50 mt-1">
+          Après le pack initial de 2 nuits · +10 € / nuit
+        </div>
+      </div>
+
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setExtraNights(Math.max(0, extraNights - 1))}
+          className="size-8 border border-navy/20 hover:border-gold transition"
+        >
+          -
+        </button>
+
+        <span className="w-8 text-center font-serif text-lg text-navy">
+          {extraNights}
+        </span>
+
+        <button
+          onClick={() => setExtraNights(extraNights + 1)}
+          className="size-8 border border-navy/20 hover:border-gold transition"
+        >
+          +
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+)}
+                    {s.note && (
+                      <div className="mt-5 rounded-lg border border-gold/20 bg-gold/5 p-4">
+                        <p className="text-xs md:text-sm text-navy/60 leading-relaxed">
+                          {s.note}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -544,7 +648,7 @@ function DevisPage() {
 
             {/* SUBMIT MOBILE */}
             <div className="lg:hidden">
-              <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} />
+              <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} extraNights={extraNights} />
             </div>
           </div>
 
@@ -566,11 +670,19 @@ function DevisPage() {
                         {s.title}
                         {s.option && <span className="text-navy/40"> ({s.option})</span>}
                         {s.quantity > 1 && <span className="text-navy/40"> ×{s.quantity}</span>}
+                        {s.id === "parking-bureau" && extraNights > 0 && (
+                          <div className="mt-1 text-xs text-navy/40">
+                            + {extraNights} nuit{extraNights > 1 ? "s" : ""} supplémentaire
+                            {extraNights > 1 ? "s" : ""} ({extraNights * 10} €)
+                          </div>
+                        )}
                       </div>
                       <div className="shrink-0 font-medium text-navy">
-                        {s.price === null
-                          ? <span className="text-gold italic text-xs">Sur devis</span>
-                          : `${s.price * s.quantity} €`
+                        {s.id === "parking-bureau"
+                          ? `${(s.price ?? 0) + extraNights * 10} €`
+                          : s.price === null
+                            ? <span className="text-gold italic text-xs">Sur devis</span>
+                            : `${s.price * s.quantity} €`
                         }
                       </div>
                     </div>
@@ -611,37 +723,123 @@ function DevisPage() {
 }
 
 function MobileSummary({
-  selected, total, onSubmit, form
+  selected,
+  total,
+  onSubmit,
+  form,
+  extraNights
 }: {
   selected: Item[];
   total: number;
   onSubmit: () => void;
   form: { name: string; email: string };
+  extraNights: number;
 }) {
   return (
-    <div className="bg-white border border-navy/8 p-6">
-      <div className="flex justify-between items-baseline mb-4">
-        <h3 className="font-serif text-lg text-navy">Total estimé</h3>
-        <span className="font-serif text-2xl text-gold">{total} €</span>
+    <div className="bg-white border border-navy/8 p-5 sm:p-6">
+
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-5">
+        <h3 className="font-serif text-lg text-navy">
+          Total estimé
+        </h3>
+
+        <span className="font-serif text-2xl text-gold">
+          {total} €
+        </span>
       </div>
+
+
       {selected.length > 0 && (
-        <div className="space-y-1 mb-4 text-sm text-navy/60">
+        <div className="space-y-4 mb-6">
+
           {selected.map((s) => (
-            <div key={s.id} className="flex justify-between">
-              <span>{s.title}{s.option && ` (${s.option})`}</span>
-              <span>{s.price === null ? "Sur devis" : `${s.price * s.quantity} €`}</span>
+            <div
+              key={s.id}
+              className="border-b border-navy/5 pb-3 last:border-0"
+            >
+
+              <div className="flex items-start justify-between gap-4">
+
+                <div className="min-w-0">
+                  <div className="text-sm text-navy/70 leading-snug break-words">
+                    {s.title}
+                  </div>
+
+                  {s.option && (
+                    <div className="text-xs text-navy/40 mt-1">
+                      {s.option}
+                    </div>
+                  )}
+
+                  {s.quantity > 1 && (
+                    <div className="text-xs text-navy/40 mt-1">
+                      Quantité : ×{s.quantity}
+                    </div>
+                  )}
+
+                  {s.id === "parking-bureau" && extraNights > 0 && (
+                    <div className="text-xs text-navy/40 mt-2">
+                      + {extraNights} nuit
+                      {extraNights > 1 ? "s" : ""} supplémentaire
+                      {extraNights > 1 ? "s" : ""}
+                      {" "}({extraNights * 10} €)
+                    </div>
+                  )}
+                </div>
+
+
+                <div className="shrink-0 text-sm font-medium text-navy">
+                  {s.id === "parking-bureau"
+                    ? `${(s.price ?? 0) + extraNights * 10} €`
+                    : s.price === null
+                      ? (
+                        <span className="text-gold italic text-xs">
+                          Sur devis
+                        </span>
+                      )
+                      : `${s.price * s.quantity} €`
+                  }
+                </div>
+
+              </div>
+
             </div>
           ))}
+
         </div>
       )}
+
+
       <button
         onClick={onSubmit}
         disabled={!form.name || !form.email || selected.length === 0}
-        className="w-full bg-navy text-cream py-3.5 text-sm font-medium hover:bg-gold hover:text-navy transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="
+          w-full
+          bg-navy
+          text-cream
+          py-3.5
+          text-sm
+          font-medium
+          hover:bg-gold
+          hover:text-navy
+          transition-colors
+          duration-200
+          disabled:opacity-40
+          disabled:cursor-not-allowed
+          flex
+          items-center
+          justify-center
+          gap-2
+        "
       >
-        Envoyer le devis <Check className="size-4" />
+        Envoyer le devis
+        <Check className="size-4" />
       </button>
-      <p className="text-xs text-navy/30 text-center mt-2">Réponse garantie sous 24h</p>
+
+      <p className="text-xs text-navy/30 text-center mt-3">
+        Réponse garantie sous 24h
+      </p>
+
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const Route = createFileRoute("/transit")({
       {
         name: "description",
         content:
-          "Services douaniers EX-A et MRN, carte provisoire d'immatriculation, assurance temporaire et stationnement. Tout le transit véhicule par GACTI.",
+          "Services douaniers EX-A et MRN, certificat provisoire d'immatriculation, assurance temporaire et stationnement. Tout le transit véhicule par GACTI.",
       },
       { property: "og:title", content: "Transit véhicules — GACTI" },
       {
@@ -33,6 +33,7 @@ const services = [
   {
     icon: FileCheck,
     title: "EX-A",
+    note: "Pour les départs en Auto-passager, les validations définitives doivent être effectuées par vos soins auprès de la compagnie maritime le jour du départ",
     price: "60 €",
     desc:
       "Déclaration douanière obligatoire attestant la sortie légale du véhicule de l’Union Européenne.",
@@ -46,19 +47,20 @@ const services = [
   {
     icon: FileCheck,
     title: "MRN",
+    note: "Pour les départs en Auto-passager, les validations définitives doivent être effectuées par vos soins auprès de la compagnie maritime le jour du départ",
     price: "80 €",
     desc:
       "Validation et gestion du numéro MRN permettant le suivi de votre dossier dans le système douanier européen.",
     highlights: [
       "Numéro officiel unique",
-      "Suivi douanier",
-      "Validation administrative",
+      "Prise en charge du MRN étranger",
+      "Notification de votre MRN sur le port de départ",
     ],
   },
 
   {
     icon: IdCard,
-    title: "Carte provisoire d'immatriculation",
+    title: "Certificat provisoire d'immatriculation (CPI)",
     price: "60 €",
     desc:
       "Permet au véhicule de circuler légalement avant son exportation vers sa destination finale.",
@@ -72,7 +74,7 @@ const services = [
   {
     icon: IdCard,
     title: "Plaques d'immatriculation",
-    price: "20 €",
+    price: "30 €",
     desc:
       "Plaques conformes destinées aux véhicules exportés avant leur embarquement.",
     highlights: [
@@ -85,7 +87,7 @@ const services = [
   {
     icon: ShieldCheck,
     title: "Assurance temporaire",
-    price: "À partir de 45 €",
+    price: "À partir de 50 €",
     desc:
       "Couverture temporaire adaptée aux véhicules destinés à l’export pour circuler en toute conformité.",
     highlights: [
@@ -147,9 +149,9 @@ const faq = [
   },
 
   {
-    question: "Pourquoi passer par GACTI pour obtenir une carte provisoire d’immatriculation (CPI) ?",
+    question: "Pourquoi passer par GACTI pour obtenir une certificat provisoire d’immatriculation (CPI) ?",
     answer:
-      "La carte provisoire d’immatriculation permet à un véhicule de circuler légalement avant son exportation. Son obtention nécessite plusieurs démarches administratives qui peuvent rapidement devenir complexes lorsqu’on ne connaît pas les procédures.\n\nEn confiant cette démarche à GACTI, vous bénéficiez d’un accompagnement complet : vérification des documents, constitution du dossier, suivi administratif et transmission du document une fois validé. Notre expertise nous permet d’accélérer les démarches tout en garantissant leur conformité. Que vous exportiez un seul véhicule ou une flotte complète, nous adaptons notre accompagnement à vos besoins."
+      "La certificat provisoire d’immatriculation permet à un véhicule de circuler légalement avant son exportation. Son obtention nécessite plusieurs démarches administratives qui peuvent rapidement devenir complexes lorsqu’on ne connaît pas les procédures.\n\nEn confiant cette démarche à GACTI, vous bénéficiez d’un accompagnement complet : vérification des documents, constitution du dossier, suivi administratif et transmission du document une fois validé. Notre expertise nous permet d’accélérer les démarches tout en garantissant leur conformité. Que vous exportiez un seul véhicule ou une flotte complète, nous adaptons notre accompagnement à vos besoins."
   },
 
   {
@@ -280,6 +282,25 @@ function TransitPage() {
                   </div>
                 </div>
 
+              </div>
+            )}
+            {s.note && (
+              <div className="mt-6 rounded-xl border border-gold/20 bg-gradient-to-br from-cream to-white p-4 sm:p-5 md:p-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/10 text-sm font-semibold text-gold sm:h-9 sm:w-9">
+                    i
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[10px] uppercase tracking-[0.25em] text-navy/50 sm:text-xs">
+                      Information importante
+                    </div>
+
+                    <p className="mt-2 text-[13px] leading-relaxed text-navy/75 sm:text-sm md:text-[15px]">
+                      {s.note}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
           </div>

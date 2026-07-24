@@ -25,7 +25,7 @@ export function Footer() {
 
           <p className="mt-5 max-w-md text-sm leading-relaxed text-cream/70">
             {SITE.fullName}. Spécialiste du transit véhicules, transport maritime et
-            distribution agroalimentaire depuis plus de 15 ans, au cœur des grands ports français.
+            distribution agroalimentaire depuis plus de 10 ans, au cœur des grands ports français.
           </p>
 
           <div className="mt-6 text-[11px] tracking-widest uppercase text-cream/40">
