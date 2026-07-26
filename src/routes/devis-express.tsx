@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Plus, Minus, Trash2, Check, Ship, FileText, Shield, ParkingSquare } from "lucide-react";
 
-export const Route = createFileRoute("/devis")({
+export const Route = createFileRoute("/devis-express")({
   head: () => ({
     meta: [
       { title: "Devis express — GACTI" },
@@ -72,7 +72,7 @@ const variableServices = [
       },
     ],
     note:
-      "Uniquement pour les clients réalisant leurs formalités administratives chez GACTI. +10 € par nuit supplémentaire.",
+      "Remise le jour même gratuite pour les clients réalisant leurs formalités administratives chez GACTI. +10 € par nuit supplémentaire.",
     variableNightPrice: 10,
   },
 ];
@@ -346,6 +346,12 @@ function DevisPage() {
         <div className="font-serif text-gold text-base md:text-lg mt-1">
           {opt.price} €
         </div>
+
+        {opt.label === "Pack 2 nuits" && s.variableNightPrice && (
+          <div className="text-xs text-navy/40 mt-2">
+            Puis +{s.variableNightPrice} € / nuit supplémentaire
+          </div>
+        )}
       </button>
     );
   })}
@@ -624,6 +630,7 @@ function DevisPage() {
               )}
             </div>
 
+            
             {/* COORDONNÉES */}
             <div className="bg-white border border-navy/8 p-6 md:p-8">
               <h2 className="font-serif text-xl md:text-2xl text-navy mb-6">Vos coordonnées</h2>
@@ -646,6 +653,31 @@ function DevisPage() {
               </div>
             </div>
 
+            {/* DEMANDE SPECIFIQUE */}
+            <div className="bg-white border border-navy/8 p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 flex items-center justify-center bg-gold/10 text-gold shrink-0">
+                  ✉️
+                </div>
+
+                <div>
+                  <h2 className="font-serif text-xl md:text-2xl text-navy">
+                    Une demande spécifique ?
+                  </h2>
+
+                  <p className="mt-2 text-sm text-navy/60 leading-relaxed">
+                    Veuillez nous envoyer un email à l'adresse suivante :
+                  </p>
+
+                  <a
+                    href="mailto:contact@gacti.fr"
+                    className="inline-flex mt-4 text-gold font-medium hover:underline"
+                  >
+                    contact@gacti.fr →
+                  </a>
+                </div>
+              </div>
+            </div>
             {/* SUBMIT MOBILE */}
             <div className="lg:hidden">
               <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} extraNights={extraNights} />
@@ -703,7 +735,7 @@ function DevisPage() {
                 Envoyer le devis <Check className="size-4" />
               </button>
 
-              <p className="text-xs text-navy/30 text-center mt-3">Réponse garantie sous 24h</p>
+              <p className="text-xs text-navy/30 text-center mt-3">Réponse garantie sous 24h durant les jours ouvrés</p>
 
               <div className="mt-6 pt-4 border-t border-navy/8 space-y-2">
                 <a href="tel:+33608465741" className="flex items-center gap-2 text-xs text-navy/50 hover:text-navy transition-colors">
@@ -837,7 +869,7 @@ function MobileSummary({
       </button>
 
       <p className="text-xs text-navy/30 text-center mt-3">
-        Réponse garantie sous 24h
+        Réponse garantie sous 24h durant les jours ouvrés
       </p>
 
     </div>

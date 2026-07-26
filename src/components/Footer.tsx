@@ -42,12 +42,12 @@ export function Footer() {
 
           <ul className="space-y-2 text-sm">
             {[
-              ["/transit", "Transit véhicules"],
+              ["/transit-vehicules", "Transit véhicules"],
               ["/vehicules", "Trouver un véhicule"],
               ["/catalogues", "Catalogues produits"],
               ["/transport", "Transport maritime"],
               ["/equipe", "Notre équipe"],
-              ["/devis", "Devis express"],
+              ["/devis-express", "Devis express"],
             ].map(([to, label]) => (
               <li key={to}>
                 <Link

@@ -8,7 +8,7 @@ import transitImg from "@/assets/transit-vehicles.jpg";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 
-export const Route = createFileRoute("/transit")({
+export const Route = createFileRoute("/transit-vehicules")({
   head: () => ({
     meta: [
       { title: "Transit véhicules — GACTI" },
@@ -333,7 +333,7 @@ function TransitPage() {
           </div>
           <Reveal delay={0.4}>
             <Link
-              to="/devis"
+              to="/devis-express"
               className="mt-16 inline-flex items-center gap-3 bg-gold text-navy px-7 py-4 hover:bg-cream transition-colors"
             >
               Obtenir mon devis transit <ArrowRight className="size-5" />

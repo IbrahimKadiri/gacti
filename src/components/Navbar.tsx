@@ -7,7 +7,7 @@ import logoGacti from "@/assets/logo-gacti.png";
 
 const links = [
   { to: "/", label: "Accueil", num: "01" },
-  { to: "/transit", label: "Transit", num: "02" },
+  { to: "/transit-vehicules", label: "Transit", num: "02" },
   { to: "/vehicules", label: "Véhicules", num: "03" },
   { to: "/catalogues", label: "Catalogues", num: "04" },
   { to: "/transport", label: "Transport", num: "05" },
@@ -16,7 +16,7 @@ const links = [
 ] as const;
 
 function isLightPage(pathname: string) {
-  return pathname.startsWith("/contact") || pathname.startsWith("/devis");
+  return pathname.startsWith("/contact") || pathname.startsWith("/devis-express");
 }
 
 export function Navbar() {
@@ -106,7 +106,7 @@ export function Navbar() {
           <div className="flex items-center gap-2 sm:gap-3">
 
             <Link
-              to="/devis"
+              to="/devis-express"
               className="hidden sm:inline-flex items-center gap-2 bg-navy text-cream px-5 py-2.5 text-sm font-medium tracking-wide hover:bg-gold hover:text-navy transition-all duration-300 shadow-sm hover:shadow-md"
             >
               Devis express
@@ -197,7 +197,7 @@ export function Navbar() {
               <div className="mt-8 pt-8 border-t border-cream/10 space-y-4">
 
                 <Link
-                  to="/devis"
+                  to="/devis-express"
                   onClick={() => setOpen(false)}
                   className="flex justify-between bg-gold text-navy px-5 py-4 text-sm font-medium"
                 >

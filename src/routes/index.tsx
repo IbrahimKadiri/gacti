@@ -62,7 +62,7 @@ const services = [
     desc: "Gestion complète des formalités douanières, immatriculation provisoire et du transit pour vos véhicules à l’export.",
     icon: Car,
     img: transitImg,
-    to: "/transit",
+    to: "/transit-vehicules",
   },
   {
     title: "Trouver votre véhicule",
@@ -215,13 +215,13 @@ function Index() {
             className="mt-10 flex flex-wrap gap-4"
           >
             <Link
-              to="/devis"
+              to="/devis-express"
               className="group inline-flex items-center gap-3 bg-gold text-navy px-7 py-4 text-base hover:bg-cream transition-colors"
             >
               Devis express <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              to="/transit"
+              to="/transit-vehicules"
               className="inline-flex items-center gap-3 border border-cream/30 text-cream px-7 py-4 text-base hover:bg-cream/10 transition-colors"
             >
               Découvrir nos services

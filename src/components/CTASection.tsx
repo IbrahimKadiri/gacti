@@ -25,7 +25,7 @@ export function CTASection({
           </Reveal>
           <Reveal className="md:col-span-2 flex md:justify-end" delay={0.1}>
             <Link
-              to="/devis"
+              to="/devis-express"
               className="group inline-flex items-center gap-3 bg-gold text-navy px-8 py-5 text-base tracking-wide hover:bg-cream transition-colors"
             >
               Demander un devis

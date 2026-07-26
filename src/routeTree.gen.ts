@@ -11,9 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VehiculesRouteImport } from './routes/vehicules'
 import { Route as TransportRouteImport } from './routes/transport'
-import { Route as TransitRouteImport } from './routes/transit'
+import { Route as TransitVehiculesRouteImport } from './routes/transit-vehicules'
 import { Route as EquipeRouteImport } from './routes/equipe'
-import { Route as DevisRouteImport } from './routes/devis'
+import { Route as DevisExpressRouteImport } from './routes/devis-express'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CataloguesRouteImport } from './routes/catalogues'
 import { Route as IndexRouteImport } from './routes/index'
@@ -28,9 +28,9 @@ const TransportRoute = TransportRouteImport.update({
   path: '/transport',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TransitRoute = TransitRouteImport.update({
-  id: '/transit',
-  path: '/transit',
+const TransitVehiculesRoute = TransitVehiculesRouteImport.update({
+  id: '/transit-vehicules',
+  path: '/transit-vehicules',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EquipeRoute = EquipeRouteImport.update({
@@ -38,9 +38,9 @@ const EquipeRoute = EquipeRouteImport.update({
   path: '/equipe',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DevisRoute = DevisRouteImport.update({
-  id: '/devis',
-  path: '/devis',
+const DevisExpressRoute = DevisExpressRouteImport.update({
+  id: '/devis-express',
+  path: '/devis-express',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -63,9 +63,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/catalogues': typeof CataloguesRoute
   '/contact': typeof ContactRoute
-  '/devis': typeof DevisRoute
+  '/devis-express': typeof DevisExpressRoute
   '/equipe': typeof EquipeRoute
-  '/transit': typeof TransitRoute
+  '/transit-vehicules': typeof TransitVehiculesRoute
   '/transport': typeof TransportRoute
   '/vehicules': typeof VehiculesRoute
 }
@@ -73,9 +73,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/catalogues': typeof CataloguesRoute
   '/contact': typeof ContactRoute
-  '/devis': typeof DevisRoute
+  '/devis-express': typeof DevisExpressRoute
   '/equipe': typeof EquipeRoute
-  '/transit': typeof TransitRoute
+  '/transit-vehicules': typeof TransitVehiculesRoute
   '/transport': typeof TransportRoute
   '/vehicules': typeof VehiculesRoute
 }
@@ -84,9 +84,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/catalogues': typeof CataloguesRoute
   '/contact': typeof ContactRoute
-  '/devis': typeof DevisRoute
+  '/devis-express': typeof DevisExpressRoute
   '/equipe': typeof EquipeRoute
-  '/transit': typeof TransitRoute
+  '/transit-vehicules': typeof TransitVehiculesRoute
   '/transport': typeof TransportRoute
   '/vehicules': typeof VehiculesRoute
 }
@@ -96,9 +96,9 @@ export interface FileRouteTypes {
     | '/'
     | '/catalogues'
     | '/contact'
-    | '/devis'
+    | '/devis-express'
     | '/equipe'
-    | '/transit'
+    | '/transit-vehicules'
     | '/transport'
     | '/vehicules'
   fileRoutesByTo: FileRoutesByTo
@@ -106,9 +106,9 @@ export interface FileRouteTypes {
     | '/'
     | '/catalogues'
     | '/contact'
-    | '/devis'
+    | '/devis-express'
     | '/equipe'
-    | '/transit'
+    | '/transit-vehicules'
     | '/transport'
     | '/vehicules'
   id:
@@ -116,9 +116,9 @@ export interface FileRouteTypes {
     | '/'
     | '/catalogues'
     | '/contact'
-    | '/devis'
+    | '/devis-express'
     | '/equipe'
-    | '/transit'
+    | '/transit-vehicules'
     | '/transport'
     | '/vehicules'
   fileRoutesById: FileRoutesById
@@ -127,9 +127,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CataloguesRoute: typeof CataloguesRoute
   ContactRoute: typeof ContactRoute
-  DevisRoute: typeof DevisRoute
+  DevisExpressRoute: typeof DevisExpressRoute
   EquipeRoute: typeof EquipeRoute
-  TransitRoute: typeof TransitRoute
+  TransitVehiculesRoute: typeof TransitVehiculesRoute
   TransportRoute: typeof TransportRoute
   VehiculesRoute: typeof VehiculesRoute
 }
@@ -150,11 +150,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TransportRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/transit': {
-      id: '/transit'
-      path: '/transit'
-      fullPath: '/transit'
-      preLoaderRoute: typeof TransitRouteImport
+    '/transit-vehicules': {
+      id: '/transit-vehicules'
+      path: '/transit-vehicules'
+      fullPath: '/transit-vehicules'
+      preLoaderRoute: typeof TransitVehiculesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/equipe': {
@@ -164,11 +164,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquipeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/devis': {
-      id: '/devis'
-      path: '/devis'
-      fullPath: '/devis'
-      preLoaderRoute: typeof DevisRouteImport
+    '/devis-express': {
+      id: '/devis-express'
+      path: '/devis-express'
+      fullPath: '/devis-express'
+      preLoaderRoute: typeof DevisExpressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -199,9 +199,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CataloguesRoute: CataloguesRoute,
   ContactRoute: ContactRoute,
-  DevisRoute: DevisRoute,
+  DevisExpressRoute: DevisExpressRoute,
   EquipeRoute: EquipeRoute,
-  TransitRoute: TransitRoute,
+  TransitVehiculesRoute: TransitVehiculesRoute,
   TransportRoute: TransportRoute,
   VehiculesRoute: VehiculesRoute,
 }

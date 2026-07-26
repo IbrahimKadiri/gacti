@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Contactez GACTI à Marseille : téléphone +33 6 08 46 57 41, email contact@gacti.fr, WhatsApp. Équipe joignable du lundi au samedi, 9h-17h.",
+          "Contactez GACTI à Marseille : téléphone +33 6 08 46 57 41, email contact@gacti.fr, WhatsApp. Équipe joignable du lundi au vendredi, 9h-12h, 13h-17h.",
       },
       { name: "keywords", content: "contact GACTI, transit véhicules Marseille, transport maritime, devis export Afrique" },
       { property: "og:title", content: "Contact GACTI — Transit & transport maritime" },
