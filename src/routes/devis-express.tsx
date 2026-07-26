@@ -653,31 +653,53 @@ function DevisPage() {
               </div>
             </div>
 
-            {/* DEMANDE SPECIFIQUE */}
-            <div className="bg-white border border-navy/8 p-6 md:p-8">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 flex items-center justify-center bg-gold/10 text-gold shrink-0">
-                  ✉️
-                </div>
+     {/* DEMANDE SPECIFIQUE */}
+<div className="relative overflow-hidden bg-navy p-6 md:p-10 border border-navy/10 text-center">
 
-                <div>
-                  <h2 className="font-serif text-xl md:text-2xl text-navy">
-                    Une demande spécifique ?
-                  </h2>
+  {/* Décoration */}
+  <div className="absolute -right-20 -top-20 w-56 h-56 rounded-full bg-gold/10 blur-3xl" />
+  <div className="absolute -left-16 -bottom-16 w-40 h-40 rounded-full bg-gold/5 blur-2xl" />
 
-                  <p className="mt-2 text-sm text-navy/60 leading-relaxed">
-                    Veuillez nous envoyer un email à l'adresse suivante :
-                  </p>
+  <div className="relative mx-auto max-w-xl">
 
-                  <a
-                    href="mailto:contact@gacti.fr"
-                    className="inline-flex mt-4 text-gold font-medium hover:underline"
-                  >
-                    contact@gacti.fr →
-                  </a>
-                </div>
-              </div>
-            </div>
+    <p className="text-xs uppercase tracking-[0.25em] text-gold mb-3">
+      Besoin particulier
+    </p>
+
+    <h2 className="font-serif text-2xl md:text-3xl text-cream">
+      Une demande spécifique ?
+    </h2>
+
+    <p className="mt-4 text-sm md:text-base text-cream/60 leading-relaxed">
+      Une prestation qui ne figure pas dans notre simulateur ?
+      Veuillez nous envoyer un email à l'adresse suivante :
+    </p>
+
+    <a
+      href="mailto:contact@gacti.fr"
+      className="
+        inline-flex
+        items-center
+        justify-center
+        gap-2
+        mt-6
+        bg-gold
+        text-navy
+        px-6
+        py-3.5
+        text-sm
+        font-medium
+        transition-all
+        hover:bg-gold/90
+        hover:-translate-y-0.5
+      "
+    >
+      contact@gacti.fr
+      <span>→</span>
+    </a>
+
+  </div>
+</div>
             {/* SUBMIT MOBILE */}
             <div className="lg:hidden">
               <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} extraNights={extraNights} />
