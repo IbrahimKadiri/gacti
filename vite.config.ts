@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-vite-plugin';
 
 export default defineConfig({
+  base: '/gacti/', //enlever lors de la mise en prod finale !!!
   plugins: [
     tanstackRouter({
       target: 'react',
