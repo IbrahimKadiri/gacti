@@ -7,7 +7,7 @@ export default {
     "/transport",
     "/equipe",
     "/contact",
-    "/devis",
+    "/devis-express",
   ],
   serveDir: "dist",
   outDir: "static-pages",
