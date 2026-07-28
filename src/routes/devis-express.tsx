@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Plus, Minus, Trash2, Check, Ship, FileText, Shield, ParkingSquare } from "lucide-react";
+import { sendMail } from "@/lib/mail";
 
 export const Route = createFileRoute("/devis-express")({
   head: () => ({
@@ -103,6 +104,7 @@ function DevisPage() {
   const [extraNights, setExtraNights] = useState(0);
   const [selected, setSelected] = useState<Item[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -193,10 +195,84 @@ function DevisPage() {
   const getSelected = (id: string) => selected.find((x) => x.id === id);
 
   const handleSubmit = async () => {
-    if (!form.name || !form.email) return;
-    // EmailJS à connecter ici
-    console.log({ selected, form, total });
-    setSubmitted(true);
+
+    if (!form.name || !form.email || selected.length === 0) {
+      return;
+    }
+
+    try {
+
+      setLoading(true);
+
+      await sendMail({
+        type: "devis-express",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        details: {
+          services: selected.map((s) => {
+            let price = s.isQuote ? null : (s.price ?? 0) * s.quantity;
+            let note = null;
+
+            if (s.id === "parking-bureau" && extraNights > 0) {
+              price = (price ?? 0) + extraNights * 10;
+              note = `+ ${extraNights} nuit${extraNights > 1 ? "s" : ""} supplémentaire${extraNights > 1 ? "s" : ""} (${extraNights * 10} €)`;
+            }
+
+            return {
+              title: s.title,
+              option: s.option || null,
+              quantity: s.quantity,
+              price,
+              note,
+            };
+          }),
+          total,
+
+          container: isSelected("container")
+            ? {
+                loadingCountry: form.containerLoadingCountry,
+                loadingCity: form.containerLoadingCity,
+                deliveryCountry: form.containerDeliveryCountry,
+                deliveryCity: form.containerDeliveryCity,
+                cargoType: form.cargoType,
+                cargoWeight: form.cargoWeight,
+                loadingDate: form.containerLoadingDate,
+                deliveryDate: form.containerDeliveryDate,
+                message: form.containerMessage,
+              }
+            : null,
+
+          roro: isSelected("roro")
+            ? {
+                departureCountry: form.roroDepartureCountry,
+                departureCity: form.roroDepartureCity,
+                arrivalCountry: form.roroArrivalCountry,
+                arrivalCity: form.roroArrivalCity,
+                date: form.roroDate,
+                message: form.roroMessage,
+              }
+            : null,
+        }
+
+      });
+
+      setSubmitted(true);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+    } catch(error){
+      console.error(error);
+      alert(
+        "Une erreur est survenue lors de l'envoi."
+      );
+
+    } finally {
+      setLoading(false);
+    }
+
   };
 
   if (submitted) {
@@ -207,7 +283,7 @@ function DevisPage() {
             <Check className="size-8 text-gold" />
           </div>
           <h2 className="font-serif text-3xl text-navy mb-3">Demande envoyée</h2>
-          <p className="text-navy/60 mb-8">Notre équipe revient vers vous sous 24h avec une proposition détaillée.</p>
+          <p className="text-navy/60 mb-8">Notre équipe revient vers vous sous 24h ouvrés avec une proposition détaillée.</p>
           <button
             onClick={() => { setSubmitted(false); setSelected([]); }}
             className="border border-navy/20 text-navy px-8 py-3 hover:bg-navy hover:text-cream transition-colors duration-200"
@@ -702,7 +778,7 @@ function DevisPage() {
 </div>
             {/* SUBMIT MOBILE */}
             <div className="lg:hidden">
-              <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} extraNights={extraNights} />
+              <MobileSummary selected={selected} total={total} onSubmit={handleSubmit} form={form} extraNights={extraNights} loading={loading}/>
             </div>
           </div>
 
@@ -751,10 +827,18 @@ function DevisPage() {
 
               <button
                 onClick={handleSubmit}
-                disabled={!form.name || !form.email || selected.length === 0}
+                disabled={loading || !form.name || !form.email || selected.length === 0}
                 className="w-full bg-navy text-cream py-3.5 text-sm font-medium tracking-wide hover:bg-gold hover:text-navy transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Envoyer le devis <Check className="size-4" />
+                {loading ? (
+                  <>
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    Envoyer le devis <Check className="size-4" />
+                  </>
+                )}
               </button>
 
               <p className="text-xs text-navy/30 text-center mt-3">Réponse garantie sous 24h durant les jours ouvrés</p>
@@ -781,13 +865,15 @@ function MobileSummary({
   total,
   onSubmit,
   form,
-  extraNights
+  extraNights,
+  loading
 }: {
   selected: Item[];
   total: number;
   onSubmit: () => void;
   form: { name: string; email: string };
   extraNights: number;
+  loading:boolean;
 }) {
   return (
     <div className="bg-white border border-navy/8 p-5 sm:p-6">
@@ -866,7 +952,7 @@ function MobileSummary({
 
       <button
         onClick={onSubmit}
-        disabled={!form.name || !form.email || selected.length === 0}
+        disabled={loading || !form.name || !form.email || selected.length === 0}
         className="
           w-full
           bg-navy
@@ -886,7 +972,7 @@ function MobileSummary({
           gap-2
         "
       >
-        Envoyer le devis
+        {loading ? "Envoi en cours..." : "Envoyer le devis"}
         <Check className="size-4" />
       </button>
 

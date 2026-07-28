@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
 import vehiclesImg from "@/assets/vehicles-find.jpg";
+import { sendMail } from "@/lib/mail";
 
 export const Route = createFileRoute("/vehicules")({
   head: () => ({
@@ -27,7 +28,60 @@ export const Route = createFileRoute("/vehicules")({
 
 function VehiculesPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    brand: "",
+    model: "",
+    year: "",
+    budget: "",
+    country: "",
+    message: "",
+  });
+
+   const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+
+      await sendMail({
+
+        type: "sourcing",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+
+        details: {
+          "Marque recherchée": form.brand,
+          "Modèle": form.model,
+          "Année": form.year,
+          "Budget": form.budget,
+          "Pays destination": form.country,
+          "Message": form.message,
+        }
+
+      });
+      setSubmitted(true);
+
+    } catch(error){
+
+      console.error(error);
+      alert(
+        "Une erreur est survenue, veuillez réessayer."
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <PageHero
@@ -75,63 +129,258 @@ function VehiculesPage() {
               {submitted ? (
                 <div className="mt-8 p-8 border border-gold bg-gold/10 text-navy text-center">
                   <p className="font-serif text-2xl">Demande envoyée.</p>
-                  <p className="mt-2 text-navy/70">Nous revenons vers vous sous 24 h avec des propositions.</p>
+                  <p className="mt-2 text-navy/70">Nous revenons vers vous sous 24h ouvrés avec des propositions.</p>
                 </div>
               ) : (
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setSubmitted(true);
-                  }}
+                  onSubmit={handleSubmit}
                   className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5"
-                >
-                  {[
-                    ["brand", "Marque souhaitée", "Mercedes, BMW, Toyota…"],
-                    ["model", "Modèle & options", "Classe E, X5, Land Cruiser…"],
-                    ["year", "Année", "2020 - 2024"],
-                    ["budget", "Budget approximatif", "20 000 € - 40 000 €"],
-                  ].map(([name, label, ph]) => (
-                    <label key={name} className="block">
-                      <span className="text-xs tracking-wider uppercase text-navy/60">{label}</span>
-                      <input
-                        required
-                        name={name}
-                        placeholder={ph}
-                        className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
-                      />
-                    </label>
-                  ))}
+                  >
+
                   <label className="block sm:col-span-2">
-                    <span className="text-xs tracking-wider uppercase text-navy/60">Pays de destination</span>
-                    <input
-                      required
-                      name="country"
-                      placeholder="Maroc, Sénégal, Côte d'Ivoire…"
-                      className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
-                    />
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Nom
+                  </span>
+
+                  <input
+                  required
+                  value={form.name}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  name:e.target.value
+                  })}
+                  placeholder="Votre nom"
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
                   </label>
+
+
+
+                  <label className="block">
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Email
+                  </span>
+
+                  <input
+                  required
+                  type="email"
+                  value={form.email}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  email:e.target.value
+                  })}
+                  placeholder="email@exemple.com"
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+                  <label className="block">
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Téléphone
+                  </span>
+
+                  <input
+                  value={form.phone}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  phone:e.target.value
+                  })}
+                  placeholder="+33..."
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+
+                  <label className="block">
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Marque souhaitée
+                  </span>
+
+                  <input
+                  required
+                  value={form.brand}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  brand:e.target.value
+                  })}
+                  placeholder="Mercedes, BMW, Toyota..."
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+
+                  <label className="block">
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Modèle & options
+                  </span>
+
+                  <input
+                  required
+                  value={form.model}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  model:e.target.value
+                  })}
+                  placeholder="Classe E, X5, Land Cruiser..."
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+
+
+                  <label className="block">
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Année
+                  </span>
+
+                  <input
+                  required
+                  value={form.year}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  year:e.target.value
+                  })}
+                  placeholder="2020 - 2024"
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+
+                  <label className="block">
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Budget approximatif
+                  </span>
+
+                  <input
+                  required
+                  value={form.budget}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  budget:e.target.value
+                  })}
+                  placeholder="30 000 €"
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
+                  </label>
+
+
+
+
+
                   <label className="block sm:col-span-2">
-                    <span className="text-xs tracking-wider uppercase text-navy/60">Message complémentaire</span>
-                    <textarea
-                      name="message"
-                      rows={4}
-                      placeholder="Préférences couleur, équipement, délais…"
-                      className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy resize-none"
-                    />
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Pays de destination
+                  </span>
+
+
+                  <input
+                  required
+                  value={form.country}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  country:e.target.value
+                  })}
+                  placeholder="Maroc, Sénégal..."
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy"
+                  />
+
                   </label>
+
+
+
+
+
+                  <label className="block sm:col-span-2">
+
+                  <span className="text-xs tracking-wider uppercase text-navy/60">
+                  Message complémentaire
+                  </span>
+
+
+                  <textarea
+                  rows={4}
+                  value={form.message}
+                  onChange={(e)=>setForm({
+                  ...form,
+                  message:e.target.value
+                  })}
+                  placeholder="Couleur, équipements, délais..."
+                  className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-4 py-3 text-navy resize-none"
+                  />
+
+                  </label>
+
+
+
+
                   <button
-                    type="submit"
-                    className="sm:col-span-2 mt-2 inline-flex items-center justify-center gap-3 bg-navy text-cream px-6 py-4 hover:bg-gold hover:text-navy transition-colors"
+                  disabled={loading}
+                  type="submit"
+                  className="
+                  sm:col-span-2
+                  mt-2
+                  inline-flex
+                  items-center
+                  justify-center
+                  gap-3
+                  bg-navy
+                  text-cream
+                  px-6
+                  py-4
+                  hover:bg-gold
+                  hover:text-navy
+                  transition-colors
+                  disabled:opacity-50
+                  "
                   >
-                    Lancer ma recherche <Send className="size-4" />
+
+                  {
+                  loading
+                  ?
+                  "Envoi en cours..."
+                  :
+                  <>
+                  Lancer ma recherche
+                  <Send className="size-4"/>
+                  </>
+                  }
+
                   </button>
+
+
+
                   <a
-                    href="tel:+33608465741"
-                    className="sm:col-span-2 inline-flex items-center justify-center gap-2 text-sm text-navy/70 hover:text-gold"
+                  href="tel:+33608465741"
+                  className="sm:col-span-2 inline-flex items-center justify-center gap-2 text-sm text-navy/70 hover:text-gold"
                   >
-                    <Phone className="size-4" /> Ou appelez-nous au +33 6 08 46 57 41
+                  <Phone className="size-4" />
+                  Ou appelez-nous au +33 6 08 46 57 41
                   </a>
-                </form>
+
+
+                  </form>
               )}
             </div>
           </Reveal>

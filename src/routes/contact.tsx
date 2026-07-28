@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SITE } from "@/lib/site";
+import { sendMail } from "@/lib/mail";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -34,9 +35,52 @@ const cards = [
 ];
 
 function ContactPage() {
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    phone: ""
+  });
   const [sent, setSent] = useState(false);
   const wa = `https://wa.me/${SITE.phoneRaw.replace("+", "")}?text=${encodeURIComponent(SITE.whatsappMessage)}`;
   const [hasConsent, setHasConsent] = useState(false);
+
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    try {
+      await sendMail({
+        type: "contact",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        details: {
+          sujet: form.subject,
+          message: form.message,
+        },
+      });
+
+      setSent(true);
+      setTimeout(() => {
+        document
+          .getElementById("success-message")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+      }, 100);
+
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur est survenue, veuillez réessayer.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const updateConsent = () => {
@@ -108,69 +152,169 @@ function ContactPage() {
         <div className="lg:col-span-7">
           <SectionHeader eyebrow="Formulaire" title="Écrivez-nous." />
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
-            className="mt-8 sm:mt-10 grid sm:grid-cols-2 gap-4 sm:gap-5 bg-card border border-border p-5 sm:p-8"
+            onSubmit={handleSubmit}
+            className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 bg-card border border-border p-5 sm:p-8"
           >
             {sent ? (
-              <div className="sm:col-span-2 text-center py-10">
-                <p className="font-serif text-2xl sm:text-3xl text-navy">Message envoyé.</p>
+              <div
+                id="success-message"
+                className="sm:col-span-2 text-center py-10"
+              >
+                <p className="font-serif text-2xl sm:text-3xl text-navy">
+                  Message envoyé.
+                </p>
+
                 <p className="mt-2 text-navy/65 text-sm sm:text-base">
                   Nous vous répondons dans les meilleurs délais.
                 </p>
               </div>
             ) : (
               <>
-                <label className="block">
-                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">Nom</span>
+                {/* NOM */}
+
+                <label className="block sm:col-span-2">
+                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">
+                    Nom
+                  </span>
+
                   <input
                     required
                     autoComplete="name"
+                    value={form.name}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        name: e.target.value,
+                      })
+                    }
                     className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base"
                   />
                 </label>
+
+
+                {/* EMAIL */}
+
                 <label className="block">
-                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">Email</span>
+                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">
+                    Email
+                  </span>
+
                   <input
                     required
                     type="email"
                     autoComplete="email"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        email: e.target.value,
+                      })
+                    }
                     className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base"
                   />
                 </label>
+
+
+                {/* TELEPHONE */}
+
+                <label className="block">
+                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">
+                    Téléphone
+                  </span>
+
+                  <input
+                    type="tel"
+                    autoComplete="tel"
+                    value={form.phone}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        phone: e.target.value,
+                      })
+                    }
+                    className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base"
+                  />
+                </label>
+
+
+                {/* OBJET */}
+
                 <label className="block sm:col-span-2">
-                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">Objet</span>
+                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">
+                    Objet
+                  </span>
+
                   <input
                     required
+                    value={form.subject}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        subject: e.target.value,
+                      })
+                    }
                     className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base"
                   />
                 </label>
+
+
+                {/* MESSAGE */}
+
                 <label className="block sm:col-span-2">
-                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">Message</span>
+                  <span className="text-[10px] sm:text-xs tracking-wider uppercase text-navy/60">
+                    Message
+                  </span>
+
                   <textarea
                     required
                     rows={6}
+                    value={form.message}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        message: e.target.value,
+                      })
+                    }
                     className="mt-2 w-full bg-cream border border-border focus:border-gold focus:outline-none px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base resize-none"
                   />
                 </label>
+
+
+                {/* BUTTONS */}
+
                 <div className="sm:col-span-2 flex flex-col sm:flex-row flex-wrap gap-3 mt-2">
+
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 bg-navy text-cream px-5 sm:px-6 py-2.5 sm:py-3 text-sm hover:bg-gold hover:text-navy transition-colors"
+                    disabled={loading}
+                    className="inline-flex items-center justify-center gap-2 bg-navy text-cream px-5 sm:px-6 py-2.5 sm:py-3 text-sm hover:bg-gold hover:text-navy transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Envoyer <Send className="size-4" />
+                    {loading ? (
+                      <>
+                        Envoi...
+                        <span className="size-4 border-2 border-cream border-t-transparent rounded-full animate-spin" />
+                      </>
+                    ) : (
+                      <>
+                        Envoyer
+                        <Send className="size-4" />
+                      </>
+                    )}
                   </button>
+
+
                   <a
                     href={wa}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 sm:px-6 py-2.5 sm:py-3 text-sm hover:opacity-90 transition-opacity"
                   >
-                    <MessageCircle className="size-4" /> WhatsApp direct
+                    <MessageCircle className="size-4" />
+                    WhatsApp direct
                   </a>
+
                 </div>
+
               </>
             )}
           </form>
@@ -225,3 +369,4 @@ function ContactPage() {
     </>
   );
 }
+
