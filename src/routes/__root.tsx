@@ -48,6 +48,22 @@ export const Route = createRootRoute({
       { property: "og:site_name", content: "GACTI" },
       { property: "og:locale", content: "fr_FR" },
       { property: "og:url", content: "https://gacti.fr" },
+      {
+        property: "og:image",
+        content: "https://gacti.fr/og/hero-port.jpg",
+      },
+      {
+        property: "og:image:width",
+        content: "1200",
+      },
+      {
+        property: "og:image:height",
+        content: "630",
+      },
+      {
+        property: "og:image:alt",
+        content: "GACTI - Transit véhicules et transport maritime",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@gacti" },
       { name: "theme-color", content: "#0A0F1E" }

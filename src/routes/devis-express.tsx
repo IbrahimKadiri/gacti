@@ -13,7 +13,7 @@ export const Route = createFileRoute("/devis-express")({
       },
       { property: "og:title", content: "Devis express — GACTI" },
       { property: "og:description", content: "Obtenez une estimation instantanée de votre transit véhicule et export maritime." },
-      { property: "og:image", content: "https://ibrahimkadiri.github.io/gacti/og/hero-port.jpg" },
+      { property: "og:image", content: "https://gacti.fr/og/hero-port.jpg" },
     ],
   }),
   component: DevisPage,

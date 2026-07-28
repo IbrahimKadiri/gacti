@@ -24,6 +24,7 @@ export const Route = createFileRoute("/transit-vehicules")({
       },
       { property: "og:image", content: transitImg },
       { name: "twitter:image", content: transitImg },
+      
     ],
   }),
   component: TransitPage,
