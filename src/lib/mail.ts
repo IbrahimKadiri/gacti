@@ -1,4 +1,4 @@
-const MAIL_API_URL = "https://project-sn163.vercel.app/api/contact"; // A CHANGER 
+const MAIL_API_URL = "https://gacti-mail.vercel.app/send-email";
 
 export async function sendMail(payload: unknown) {
   const response = await fetch(MAIL_API_URL, {
