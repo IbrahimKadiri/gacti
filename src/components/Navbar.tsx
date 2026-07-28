@@ -67,6 +67,8 @@ export function Navbar() {
             <img
               src={logoGacti}
               alt="GACTI"
+              width={120}
+              height={120}
               className={`h-24 sm:h-28 w-auto transition-all duration-300 ${
     navSolid ? "invert-0" : "invert brightness-0"
   }`}
