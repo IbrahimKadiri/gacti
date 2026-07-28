@@ -19,6 +19,8 @@ export function Footer() {
             <img
               src={logoGactiWhite}
               alt="GACTI"
+              width={120}
+              height={120}
               className="h-10 sm:h-12 w-auto object-contain"
             />
           </Link>
