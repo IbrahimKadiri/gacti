@@ -4,8 +4,8 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
-import maritimeImg from "@/assets/maritime.jpg";
-import portAerial from "@/assets/port-aerial.jpg";
+import maritimeImg from "@/assets/maritime.avif";
+import portAerial from "@/assets/port-aerial.avif";
 
 export const Route = createFileRoute("/transport")({
   head: () => ({

@@ -5,7 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
 import { SITE } from "@/lib/site";
-import productsImg from "@/assets/products.jpg";
+import productsImg from "@/assets/products.avif";
 
 export const Route = createFileRoute("/catalogues")({
   head: () => ({

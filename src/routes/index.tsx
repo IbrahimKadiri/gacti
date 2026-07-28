@@ -6,12 +6,12 @@ import { Reveal } from "@/components/Reveal";
 import { CTASection } from "@/components/CTASection";
 import { SITE } from "@/lib/site";
 
-import heroPort from "@/assets/hero-port.jpg";
-import portAerial from "@/assets/port-aerial.jpg";
-import transitImg from "@/assets/transit-vehicles.jpg";
-import vehiclesImg from "@/assets/vehicles-find.jpg";
-import productsImg from "@/assets/products.jpg";
-import maritimeImg from "@/assets/maritime.jpg";
+import heroPort from "@/assets/hero-port.avif";
+import portAerial from "@/assets/port-aerial.avif";
+import transitImg from "@/assets/transit-vehicles.avif";
+import vehiclesImg from "@/assets/vehicles-find.avif";
+import productsImg from "@/assets/products.avif";
+import maritimeImg from "@/assets/maritime.avif";
 import { Star } from "lucide-react";
 
 const ldJson = {
@@ -198,7 +198,7 @@ function Index() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
             className="mt-8 max-w-2xl text-lg md:text-xl text-cream/75 text-pretty italic"

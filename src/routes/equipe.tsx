@@ -4,7 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
-import teamImg from "@/assets/team.jpg";
+import teamImg from "@/assets/team.avif";
 
 export const Route = createFileRoute("/equipe")({
   head: () => ({

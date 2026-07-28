@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Search, Phone, Send, Quote } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
-import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
-import vehiclesImg from "@/assets/vehicles-find.jpg";
+import vehiclesImg from "@/assets/vehicles-find.avif";
 import { sendMail } from "@/lib/mail";
 
 export const Route = createFileRoute("/vehicules")({

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Phone, Mail, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SITE } from "@/lib/site";
-import logoGacti from "@/assets/logo-gacti.png";
+import logoGacti from "@/assets/logo-gacti.avif";
 
 const links = [
   { to: "/", label: "Accueil", num: "01" },

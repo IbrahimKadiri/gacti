@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin, FileText } from "lucide-react";
 import { SITE } from "@/lib/site";
-import logoGactiWhite from "@/assets/logo-gacti-white.png";
+import logoGactiWhite from "@/assets/logo-gacti-white.avif";
 
 export function Footer() {
 

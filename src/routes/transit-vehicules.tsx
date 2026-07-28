@@ -4,7 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTASection } from "@/components/CTASection";
-import transitImg from "@/assets/transit-vehicles.jpg";
+import transitImg from "@/assets/transit-vehicles.avif";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 
