@@ -205,7 +205,7 @@ function Index() {
           >
             GACTI accompagne particuliers et professionnels dans le transit
             international de véhicules, le transport maritime et la distribution agroalimentaire,
-            au cœur du port de Marseille.
+            près du port de Marseille.
           </motion.p>
 
           <motion.div
@@ -351,7 +351,7 @@ function Index() {
                 className="w-full h-full object-cover"
               />
               <div className="absolute bottom-6 left-6 right-6 bg-navy/85 text-cream p-6 backdrop-blur-sm">
-                <div className="text-xs tracking-[0.25em] uppercase text-gold mb-2">Au cœur du port de Marseille</div>
+                <div className="text-xs tracking-[0.25em] uppercase text-gold mb-2">Près du port de Marseille</div>
                 <p className="text-sm leading-relaxed">
                   Une implantation stratégique au plus près des terminaux, pour des délais maîtrisés.
                 </p>

@@ -321,7 +321,7 @@ function ContactPage() {
         </div>
 
         <div className="lg:col-span-5 flex flex-col">
-          <SectionHeader eyebrow="Nous trouver" title="Au cœur du port de Marseille." />
+          <SectionHeader eyebrow="Nous trouver" title="Près du port de Marseille." />
           <div className="mt-8 sm:mt-10 flex-1 flex flex-col gap-4">
             <div className="relative w-full overflow-hidden border border-border bg-muted aspect-[4/3] sm:aspect-square lg:aspect-auto lg:flex-1 lg:min-h-[420px]">
   
